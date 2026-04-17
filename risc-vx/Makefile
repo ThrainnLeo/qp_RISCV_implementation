@@ -32,9 +32,11 @@ SYSTEM_CLOCK := 8000000U
 ######################################
 # C sources
 C_SOURCES =  \
-$(wildcard ./qpc/src/qf/*.c) \
-$(wildcard ./qpc/src/qep/*.c) \
-$(wildcard ./qpc/ports/riscv/*.c) \
+$(wildcard qpc/src/qf/*.c) \
+$(wildcard qpc/src/qv/*.c) \
+$(wildcard qpc/src/qs/*.c) \
+$(wildcard bsp/*.c) \
+$(wildcard qpc/ports/riscv/qv/gnu/*.c) \
 $(wildcard $(FIRMWARE_DIR)/GD32VF103_standard_peripheral/Source/*.c) \
 $(wildcard $(FIRMWARE_DIR)/GD32VF103_standard_peripheral/*.c) \
 $(wildcard $(FIRMWARE_DIR)/RISCV/stubs/*.c) \
@@ -89,6 +91,7 @@ C_DEFS =  \
 -DUSE_STDPERIPH_DRIVER \
 -DHXTAL_VALUE=$(SYSTEM_CLOCK) \
 
+
 # AS includes
 AS_INCLUDES = 
 
@@ -100,8 +103,11 @@ $(wildcard $(FIRMWARE_DIR)/debugger/)
 # C includes
 C_INCLUDES =  \
 -I. \
+-I./bsp \
 -I./qpc/include \
--I./qpc/ports/riscv \
+-I./qpc/src \
+-I./qpc/ports/riscv/qv/gnu \
+-I./qpc/ports/config \
 -I$(FIRMWARE_DIR)/GD32VF103_standard_peripheral/Include \
 -I$(FIRMWARE_DIR)/GD32VF103_standard_peripheral \
 -I$(FIRMWARE_DIR)/RISCV/drivers \
