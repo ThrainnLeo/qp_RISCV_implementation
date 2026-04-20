@@ -51,14 +51,6 @@
 
 //------------------------------Kod som har lagst till----------------------------------------------------
 #define QACTIVE_EQUEUE_TYPE     QEQueue         //tillägg för att aktivera medlemmen i structen i qp.h (rad 464) 
-
-// Typ-definitioner för minne - Platform Abstraction Layer 
-#define Q_ROM
-#define Q_ROM_VAR
-#define Q_REENTRANT
-
-typedef uint_fast8_t  QEQueueCtr;    // Typ för att räkna händelser i kön
-typedef uint_fast16_t QTimeEvtCtr;   // Typ för tick-räknare i timers
 //--------------------------------------------------------------------------------------------------------
 
 // interrupt disabling policy, see NOTE2
