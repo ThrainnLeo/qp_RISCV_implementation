@@ -3,6 +3,7 @@
 #include "gd32vf103.h"      //Allmänna funktioner
 #include "gd32vf103_rcu.h"  // Klockhantering 
 #include "gd32vf103_gpio.h" // Pinnstyrning 
+#include "n200_timer.h"
 //---------------------------------------------------
 
 // QP filer
@@ -14,7 +15,7 @@
 //---------------------------------------------------
 
 #include <stdio.h>  // for printf()/fprintf()
-#include <stdlib.h> // for exit() --> får se om vi behöver ha kvar den 
+#include <stdlib.h> // for exit()
 
 //============================================================================
 Q_DEFINE_THIS_FILE  // file name for assertions
@@ -41,10 +42,17 @@ Q_NORETURN Q_onError(char const * const module, int_t const id) {
     exit(-1);
 }
 
-void SysTick_Handler(void){ // --> Vet inte om det här är rätt 
-    QTIMEEVT_TICK_X(0U, &l_clock_tick); //time events at rate 0 (Kan vara bra att prova: l_SysTick_Handler om inget går)
-    //QF_TICK_X(0U, (void *)0); //Om inte den övre funkar, ta den 
+//Signaturen måste vara samma som den definerade funktionen i start.S
+void eclic_mtip_handler(void) {
+
+    uint32_t tick_step = TIMER_FREQ / BSP_TICKS_PER_SEC;
+    uint64_t next_tick = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME) + tick_step;
+    *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = next_tick;
+
+    //Skicka tick till QP-ramverket --> mycket viktigt för händelsekön 
+    QTIMEEVT_TICK_X(0U, 0U);
 }
+
 
 //============================================================================
 // BSP...
@@ -56,20 +64,8 @@ void BSP_init(void const * const arg) {
     rcu_periph_clock_enable(RCU_GPIOB);
 
     //Konfigurera PB0, PB1 och PB2 som Push-Pull utgångar (50MHz hastighet)
-    gpio_init(  GPIOB, GPIO_MODE_OUT_PP, 
-                GPIO_OSPEED_50MHZ, GPIO_PIN_0 | 
-                GPIO_PIN_1 | GPIO_PIN_2);
-
-    //Släck alla LEDs direkt vid start
-    gpio_bit_reset(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);
-
-    // Konfigurera ECLIC för system-timern --> Kolla om detta behövs (kolla vad detta innebär)
-    eclic_irq_enable(CLIC_INT_TMR, 0, 0);
-
-    //--------------------------------Den ger fel i termilalen----------------------------------------------------------
-    // Ställ in mtimecmp för att ge ett avbrott (t.ex. varje 10ms) --> Kolla om detta behövs (kolla vad detta innebär)
-    //uint64_t next_tick = get_timer_value() + (SystemCoreClock / 100); 
-    //set_timer_value(next_tick);
+    gpio_init(  GPIOB, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, 
+                GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);
 
     // initialize QS software tracing...
     if (!QS_INIT(arg)) {
@@ -99,9 +95,23 @@ void BSP_init(void const * const arg) {
         (void *)0);            // no initialization param
 }
 //............................................................................
+
+
+void QF_onStartup(void) {
+    // Lås upp ECLIC (Räknaren i kärnan på CPU:n) för Timer (7) från gd32vf103_eclic.c
+    eclic_irq_enable(CLIC_INT_TMR, 1, 1);
+ 
+    // Sätt första larmet
+    uint32_t tick_step = TIMER_FREQ / BSP_TICKS_PER_SEC;
+    uint64_t start_time = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME);
+    *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = start_time + tick_step;
+
+    QF_INT_ENABLE(); // Aktivera QP:s interna avbrottshantering
+}
+
 void BSP_ledOn(void) {
-// Fysisk styrning av PB0
-    gpio_bit_set(GPIOB, GPIO_PIN_0);    // använder GPIO_BOP
+    //Kan vara på reset beror på om det är low-level 
+    gpio_bit_set(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 |GPIO_PIN_2);    // application-specific record
 
     QS_BEGIN_ID(LED_STAT, AO_Blinky->prio)
         QS_STR("ON"); // LED status
@@ -109,55 +119,31 @@ void BSP_ledOn(void) {
 }
 //............................................................................
 void BSP_ledOff(void) {
-// Fysisk styrning av PB0
-    gpio_bit_reset(GPIOB, GPIO_PIN_0);    // använder GPIO_BC
+    //Kan vara på set beror på om det är low-level 
+    gpio_bit_reset(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);    // application-specific record
 
     QS_BEGIN_ID(LED_STAT, AO_Blinky->prio)
         QS_STR("OFF"); // LED status
     QS_END()
 }
-
 //============================================================================
 // QF...
 
-//Den anropas av ramverket precis innan det börjar köra händelse-loopen. 
-//På en RISC-V är det här du faktiskt "låser upp dörren" för avbrott.
-void QF_onStartup(void) {
-
-    //Konfigurera Machine Timer (mtime/mtimecmp) här om du inte gjort det i BSP_init
-    // set up the SysTick timer to fire at BSP_TICKS_PER_SEC rate
-    SystemCoreClockUpdate();
-    uint64_t mtime = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME); //Makros ligger i n200_timer.h (från RISC-V)
-
-   // 2. Sätt nästa avbrott (mtimecmp)
-    // Vi räknar ut intervallet baserat på klockfrekvensen
-    uint64_t next_tick = mtime + (SystemCoreClock / BSP_TICKS_PER_SEC);
-    *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = next_tick;
-    
-    //Aktivera Machine Timer Interrupt i mie-registret (bit 7)
-    __asm__ volatile ("csrs mie, %0" :: "r"(0x80));  //Enable Timer IRQ
-
-    // Aktivera globala avbrott (MIE-biten i mstatus)
-    QF_INT_ENABLE();
-}
 //............................................................................
 void QF_onCleanup(void) {
 }
-//............................................................................
 
+//............................................................................
 void QV_onIdle(void){
     // Eventuell loggning för Q-Spy kan ske här
 
+    QF_INT_ENABLE(); //Detta är väldigt viktigt att ha med 
+
     // Sätt RISC-V i "Wait For Interrupt"-läge
-    // Detta gör att CPU:n pausar tills nästa tick eller knapptryck
-    __asm__ volatile ("wfi");
+    //__asm__ volatile ("wfi");
+    //Kanske inte behövs nu men Detta gör att CPU:n pausar tills nästa tick eller knapptryck
 }
 //............................................................................
-void QF_onClockTick(void) {
-
-    QS_RX_INPUT(); // handle the QS-RX input
-    QS_OUTPUT();   // handle the QS output
-}
 
 //============================================================================
 // QS callbacks...
@@ -174,3 +160,23 @@ void QS_onCommand(uint8_t cmdId,
 }
 
 #endif // Q_SPY
+
+
+
+
+/*
+// Läs nuvarande värde i väckarklockan (mtimecmp)
+    //uint64_t current_time = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP);
+    //Flytta fram larmet exakt en tidsenhet (TICKRATE) genom att utgå från current_time istället för mtime undviker vi 
+    //att tiden "driver" om avbrottet blir lite försenat.
+    //*(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = current_time + (TIMER_FREQ/BSP_TICKS_PER_SEC);
+*/
+
+
+/*
+//eclic_priority_group_set(ECLIC_PRIGROUP_LEVEL3_PRIO1); //Sätt prioritetsgruppering för ECLIC (RISC-V specifik)
+    //eclic_irq_enable(CLIC_INT_TMR, 1, 1); //Aktivera Timer-avbrottet i ECLIC med Level 1, Priority 1
+    //Detta bestämmer hur ofta ramverket kollar på systemet (var 10ms --> 100 ggr i sek)
+    //uint64_t mtime = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME); //Läs nuvarande tid från hårdvaruklockan (mtime)
+    //*(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = mtime + (TIMER_FREQ/BSP_TICKS_PER_SEC); //Vi lägger till TICK_RATE till nuvarande tid
+*/
