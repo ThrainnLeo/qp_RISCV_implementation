@@ -37,6 +37,7 @@ $(wildcard qpc/src/qv/*.c) \
 $(wildcard qpc/src/qs/*.c) \
 $(wildcard bsp/*.c) \
 $(wildcard qpc/ports/riscv/qv/gnu/*.c) \
+$(wildcard qpc/include/*.c) \
 $(wildcard $(FIRMWARE_DIR)/GD32VF103_standard_peripheral/Source/*.c) \
 $(wildcard $(FIRMWARE_DIR)/GD32VF103_standard_peripheral/*.c) \
 $(wildcard $(FIRMWARE_DIR)/RISCV/stubs/*.c) \
