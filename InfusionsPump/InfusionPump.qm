@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="7.0.3" links="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm7.xsd">
+ <framework name="qpc"/>
+ <package name="AOs" stereotype="0x02">
+  <class name="Medicine" superclass="qpc::QActive">
+   <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
+   <attribute name="id" type="uint8_t" visibility="0x02" properties="0x00"/>
+   <attribute name="interval" type="uint32_t" visibility="0x02" properties="0x00"/>
+   <statechart properties="0x00">
+    <initial target="../1/2">
+     <action>(void)par;
+
+QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
+QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
+     <initial_glyph conn="83,2,5,1,-36,15,-5">
+      <action box="-13,0,34,13"/>
+     </initial_glyph>
+    </initial>
+    <state name="operational">
+     <tran trig="ALARM" target="../../2">
+      <tran_glyph conn="64,22,1,3,17">
+       <action box="6,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state name="dosing">
+      <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, me-&gt;interval, me-&gt;interval);
+</entry>
+      <tran trig="TIMEOUT" target="..">
+       <action>BSP_ledToggle(me-&gt;id);</action>
+       <tran_glyph conn="16,56,2,2,4,22,-4">
+        <action box="0,5,22,4"/>
+       </tran_glyph>
+      </tran>
+      <tran trig="STOP_MED" target="../../2">
+       <tran_glyph conn="42,54,1,1,8,-46,-8">
+        <action box="8,-25,12,2"/>
+       </tran_glyph>
+      </tran>
+      <state_glyph node="12,36,30,20">
+       <entry box="0,3,30,7"/>
+      </state_glyph>
+     </state>
+     <state name="off">
+      <entry>//BSP_ledOff(me-&gt;id);</entry>
+      <tran trig="START_MED" target="../../1">
+       <tran_glyph conn="42,24,1,1,2,14,-2">
+        <action box="-11,5,13,2"/>
+       </tran_glyph>
+      </tran>
+      <state_glyph color="2" node="12,6,30,20">
+       <entry box="0,3,30,7"/>
+      </state_glyph>
+     </state>
+     <state_glyph color="1" node="2,0,62,66"/>
+    </state>
+    <state name="alarm">
+     <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, BSP_TICKS_PER_SEC/10, BSP_TICKS_PER_SEC/10);</entry>
+     <exit>QTimeEvt_disarm(&amp;me-&gt;timeEvt);
+BSP_ledOff(me-&gt;id);</exit>
+     <tran trig="RESUME" target="../../1">
+      <tran_glyph conn="81,34,3,1,-17">
+       <action box="-11,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="TIMEOUT" target="..">
+      <action>BSP_ledToggle(me-&gt;id);</action>
+      <tran_glyph conn="83,36,2,2,4,22,-4">
+       <action box="2,5,18,5"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph color="1" node="81,20,26,16">
+      <entry box="0,3,26,7"/>
+      <exit box="0,10,26,6"/>
+     </state_glyph>
+    </state>
+    <state_diagram size="124,110"/>
+   </statechart>
+  </class>
+  <class name="PumpMgr" superclass="qpc::QActive">
+   <attribute name="isAlarmed" type="bool" visibility="0x00" properties="0x00"/>
+   <statechart properties="0x00">
+    <initial target="../1">
+     <action>(void)par;
+QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
+QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
+     <initial_glyph conn="3,4,4,0,8,17,2">
+      <action box="2,-3,31,10"/>
+     </initial_glyph>
+    </initial>
+    <state name="operational">
+     <tran trig="START_MED">
+      <action>MedEvt const *pe = (MedEvt const *)e;
+/* Skapa en NY händelse för att undvika minneskorruption */
+MedEvt *newEvt = Q_NEW(MedEvt, START_MED_SIG);
+newEvt-&gt;medId = pe-&gt;medId;
+
+/* Skicka kopian till det specifika medicin-objektet */
+QACTIVE_POST(AO_Medicine[pe-&gt;medId], (QEvt *)newEvt, me);</action>
+      <tran_glyph conn="7,25,3,-1,21">
+       <action box="0,-5,21,5"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="STOP_MED">
+      <action>MedEvt const *pe = (MedEvt const *)e;
+/* Skapa en NY händelse att skicka vidare */
+MedEvt *newEvt = Q_NEW(MedEvt, STOP_MED_SIG);
+newEvt-&gt;medId = pe-&gt;medId;
+QACTIVE_POST(AO_Medicine[pe-&gt;medId], (QEvt *)newEvt, me);</action>
+      <tran_glyph conn="7,36,3,-1,21">
+       <action box="0,-5,21,5"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="ALARM" target="../../2">
+      <action>QF_PUBLISH(Q_NEW(QEvt, ALARM_SIG), me);</action>
+      <tran_glyph conn="32,16,1,3,20">
+       <action box="0,1,19,5"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="7,14,25,26"/>
+    </state>
+    <state name="alarm_state">
+     <tran trig="RESUME" target="../../1">
+      <action>QF_PUBLISH(Q_NEW(QEvt, RESUME_SIG), me);</action>
+      <tran_glyph conn="52,38,3,1,-20">
+       <action box="-20,-7,19,6"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph color="2" node="52,14,25,26"/>
+    </state>
+    <state_diagram size="80,50"/>
+   </statechart>
+  </class>
+ </package>
+ <package name="App" stereotype="0x01">
+  <attribute name="AppSignals" type="enum" visibility="0x04" properties="0x00">
+   <code>{
+    /*Signaler som publiceras (alla kan lyssna)*/
+    ALARM_SIG = Q_USER_SIG,    //Ersätter PAUSE: Pausar ALLA mediciner
+    RESUME_SIG,                //Ersätter SERVE: Startar om fllödet efter larm
+
+    MAX_PUB_SIG,               //Gräns för publicerade signaler
+
+    /*Signaler för att stya specifika mediciner (från switcharna)*/
+    START_MED_SIG,             //Startar dosering för specifik medicin
+    STOP_MED_SIG,              //Stoppar dosering för en specifik medicin
+
+    /*Interna signaler för Active Objects*/
+    TIMEOUT_SIG,               //Används av timers för att blinka LED
+    TICK_SIG,                  //För användning av systemklocka
+    MAX_SIG                    //Sista signalen
+};</code>
+  </attribute>
+  <attribute name="N_MEDS" type="uint8_t" visibility="0x03" properties="0x00">
+   <code>((uint8_t)3U)</code>
+  </attribute>
+  <class name="MedEvt" superclass="qpc::QEvt">
+   <attribute name="medId" type="uint8_t" visibility="0x00" properties="0x00"/>
+   <operation name="init" type="MedEvt *" visibility="0x00" properties="0x02">
+    <parameter name="id" type="uint8_t"/>
+    <code>if (me != (MedEvt *)0) {
+    me-&gt;medId = id;
+}
+return me;</code>
+   </operation>
+  </class>
+  <attribute name="AO_Medicine[N_MEDS]" type="QActive * const" visibility="0x00" properties="0x00">
+   <code>={
+    /*Ger möjlighet att referera AO_Medicine[X] när vi vill skcika komandon till en specifik medicin*/
+    Q_ACTIVE_UPCAST(&amp;Medicine_inst[0]),
+    Q_ACTIVE_UPCAST(&amp;Medicine_inst[1]),
+    Q_ACTIVE_UPCAST(&amp;Medicine_inst[2])
+};</code>
+  </attribute>
+  <operation name="Medicine_ctor" type="void" visibility="0x00" properties="0x00">
+   <parameter name="id" type="uint_fast8_t const"/>
+   <code>Medicine * const me = &amp;Medicine_inst[id];                                //Medicine * const me: Hämtar en specifik medicin-instats ur den array vi skapat.
+QActive_ctor(&amp;me-&gt;super, Q_STATE_CAST(&amp;Medicine_initial));               //QActive_ctor: Berättar för QP att det är ett Active Object och pekar ut vilket tillstånd den ska börja i (initial)
+QTimeEvt_ctorX(&amp;me-&gt;timeEvt, Q_ACTIVE_UPCAST(me), TIMEOUT_SIG, 0U);      //QTimeEvt_ctorX: Kopplar ihop medicinens timer (timeEvt) med signalen TIMEOUT_SIG. Det är denna timer som kommer styra hur snabbt LED-lampan blinkar.
+me-&gt;id = (uint8_t)id;                                                    //me-&gt;id = id: Sparar ID:t (0, 1 eller 2). Detta används för att veta om LED B0, B1 eller B2 ska tändas.
+
+if (id == 0) {
+    me-&gt;interval = BSP_TICKS_PER_SEC/4;
+} else if (id == 1) {
+    me-&gt;interval = BSP_TICKS_PER_SEC/2;
+} else {
+    me-&gt;interval = BSP_TICKS_PER_SEC;
+}</code>
+  </operation>
+  <attribute name="AO_PumpMgr" type="QActive * const" visibility="0x00" properties="0x00">
+   <code>= Q_ACTIVE_UPCAST(&amp;PumpMgr_inst);</code>
+  </attribute>
+  <operation name="PumpMgr_ctor" type="void" visibility="0x00" properties="0x00">
+   <code>PumpMgr * const me = &amp;PumpMgr_inst;
+QActive_ctor(&amp;me-&gt;super, Q_STATE_CAST(&amp;PumpMgr_initial));
+me-&gt;isAlarmed = false;</code>
+  </operation>
+ </package>
+ <directory name="/Users/hugopersson/Downloads/toolchain-gd32v-v202-osx2/projects/InfusionsPump">
+  <file name="medicine.c">
+   <text>#include &quot;qpc.h&quot;
+#include &quot;bsp.h&quot;
+#include &quot;app.h&quot;
+
+static Medicine Medicine_inst[N_MEDS];
+
+Q_DEFINE_THIS_FILE
+
+$define ${AOs::Medicine}
+
+$define ${App::AO_Medicine[N_MEDS]}
+
+$define ${App::Medicine_ctor}</text>
+  </file>
+  <file name="pumpMgr.c">
+   <text>#include &quot;qpc.h&quot;
+#include &quot;bsp.h&quot;
+#include &quot;app.h&quot;
+
+static PumpMgr PumpMgr_inst;
+
+Q_DEFINE_THIS_FILE
+
+$define ${AOs::PumpMgr}
+$define ${App::PumpMgr_ctor}
+$define ${App::AO_PumpMgr}</text>
+  </file>
+  <file name="app.h">
+   <text>#ifndef APP_H_
+#define APP_H_
+
+#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+
+$declare ${App}
+$declare ${AOs}
+
+#endif // APP_H_</text>
+  </file>
+  <file name="bsp.h">
+   <text>#ifndef BSP_H_
+#define BSP_H_
+
+#include &lt;stdint.h&gt;
+
+#define BSP_TICKS_PER_SEC 100U
+
+void BSP_init(void);
+void BSP_ledAllOff(void);
+
+void BSP_ledOn(uint8_t id);
+void BSP_ledOff(uint8_t id);
+void BSP_ledToggle(uint8_t id);
+
+#endif // BSP_H_</text>
+  </file>
+ </directory>
+</model>
