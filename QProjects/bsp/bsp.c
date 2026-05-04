@@ -32,7 +32,6 @@ Q_DEFINE_THIS_FILE  // file name for assertions
 
 //============================================================================
 // Error handler
-
 Q_NORETURN Q_onError(char const * const module, int_t const id) {
     // NOTE: this implementation of the error handler is intended only
     // for debugging and MUST be changed for deployment of the application
@@ -49,17 +48,14 @@ void eclic_mtip_handler(void) {
     uint64_t next_tick = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME);
     *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = next_tick  + tick_step;
 
-    //Skicka tick till QP-ramverket --> mycket viktigt för händelsekön 
-    QTIMEEVT_TICK_X(0U, &l_clock_tick);
+    //Skicka tick till QP-ramverket
+    QTIMEEVT_TICK_X(0U, 0U); 
+    //Började med 0U som sender och det funkar också men jag tror att om man ska koppla QSPY ska man ha det så enligt andra ex
 }
-
-
 //============================================================================
 // BSP...
 
 void BSP_init(void const * const arg) {
-    Q_UNUSED_PAR(arg);
-
     //Aktivera klockan för GPIO Port B
     rcu_periph_clock_enable(RCU_GPIOB);
 
@@ -67,22 +63,6 @@ void BSP_init(void const * const arg) {
     gpio_init(  GPIOB, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, 
                 GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);
 
-    // initialize QS software tracing...
-    if (!QS_INIT(arg)) {
-        Q_ERROR();
-    }
-
-    // QS dictionaries...
-    QS_OBJ_DICTIONARY(&l_clock_tick); // --> Kan också kunna stå l_SysTick_Handler i parantesen 
-    QS_SIG_DICTIONARY(TIMEOUT_SIG, (void *)0);
-    QS_USR_DICTIONARY(LED_STAT);
-
-    // setup the QS filters...
-    QS_GLB_FILTER(QS_GRP_ALL);  // enable all records
-    QS_GLB_FILTER(-QS_QF_TICK); // exclude the tick record
-
-    // mutable events not used -- no need to call QF_poolInit()
-    // publish-subscribe not used -- no need to call QActive_psInit()
 
     // instantiate and start AOs/threads...
     Blinky_ctor();             //Logiken för blinky exemplet 
@@ -94,11 +74,25 @@ void BSP_init(void const * const arg) {
         (void *)0, 0U,         // no stack storage
         (void *)0);            // no initialization param
 }
-//............................................................................
 
+//............................................................................
+void BSP_ledOn(void) {
+    //Kan vara på reset beror på om det är low-level 
+    gpio_bit_set(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 |GPIO_PIN_2);    // application-specific record
+}
+
+//............................................................................
+void BSP_ledOff(void) {
+    //Kan vara på set beror på om det är low-level 
+    gpio_bit_reset(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);    // application-specific record
+}
+//============================================================================
+// QF callbacks...
+void QF_onCleanup(void) {
+}
 
 void QF_onStartup(void) {
-    // Lås upp ECLIC (Räknaren i kärnan på CPU:n) för Timer (7) från gd32vf103_eclic.c
+    // Aktiverar ECLIC (Räknaren i kärnan på CPU:n) för Timer (7) från gd32vf103_eclic.c
     eclic_irq_enable(CLIC_INT_TMR, 1, 1);
  
     // Sätt första larmet
@@ -108,34 +102,11 @@ void QF_onStartup(void) {
 
     QF_INT_ENABLE(); // Aktivera QP:s interna avbrottshantering
 }
-
-void BSP_ledOn(void) {
-    //Kan vara på reset beror på om det är low-level 
-    gpio_bit_set(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 |GPIO_PIN_2);    // application-specific record
-
-    QS_BEGIN_ID(LED_STAT, AO_Blinky->prio)
-        QS_STR("ON"); // LED status
-    QS_END()
-}
 //............................................................................
-void BSP_ledOff(void) {
-    //Kan vara på set beror på om det är low-level 
-    gpio_bit_reset(GPIOB, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2);    // application-specific record
 
-    QS_BEGIN_ID(LED_STAT, AO_Blinky->prio)
-        QS_STR("OFF"); // LED status
-    QS_END()
-}
 //============================================================================
-// QF...
-
-//............................................................................
-void QF_onCleanup(void) {
-}
-
-//............................................................................
+// QV callbacks...
 void QV_onIdle(void){
-    // Eventuell loggning för Q-Spy kan ske här
 
     QF_INT_ENABLE(); //Detta är väldigt viktigt att ha med 
 
@@ -147,34 +118,20 @@ void QV_onIdle(void){
 
 //============================================================================
 // QS callbacks...
+// Dessa callbacks används för att implementera QSpy (Spårningsverktyget)
 #ifdef Q_SPY
 
-uint8_t QS_onStartup(void const *arg){
-    //Massor av kod som implementerar UART 
-
-    return 1U;
-
+uint8_t QS_onStartup(void const *arg){ 
 }
 
 void QS_onCleanup(void) {
 }
 
 QSTimeCtr QS_onGetTime(void) { // NOTE: invoked with interrupts DISABLED
-    return (QSTimeCtr)(*(uint32_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME));
 }
 
 void QS_onFlush(void){
-    /*
-    uint8_t const *b;
-    // Hämta ett byte i taget från QS-bufferten och skicka via UART
-    while ((b = QS_getByte()) != (uint8_t const *)0) {
-        // Vänta tills sändningsregistret är tomt
-        while (RESET == usart_flag_get(USART0, USART_FLAG_TBE));
-        // Skicka byten
-        usart_data_transmit(USART0, *b);
-
-    }
-    */
+    
 }
 
 void QS_onReset(void){
