@@ -60,7 +60,7 @@ QState Medicine_initial(Medicine * const me, void const * const par) {
 
     QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
     QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);
-    return Q_TRAN(&Medicine_dosing);
+    return Q_TRAN(&Medicine_off);
 }
 
 //${AOs::Medicine::SM::operational} ..........................................
@@ -86,15 +86,22 @@ QState Medicine_dosing(Medicine * const me, QEvt const * const e) {
     switch (e->sig) {
         //${AOs::Medicine::SM::operational::dosing}
         case Q_ENTRY_SIG: {
+            BSP_ledOn(me->id);
             QTimeEvt_armX(&me->timeEvt, me->interval, me->interval);
 
+            status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::Medicine::SM::operational::dosing}
+        case Q_EXIT_SIG: {
+            QTimeEvt_disarm(&me->timeEvt);
             status_ = Q_HANDLED();
             break;
         }
         //${AOs::Medicine::SM::operational::dosing::TIMEOUT}
         case TIMEOUT_SIG: {
             BSP_ledToggle(me->id);
-            status_ = Q_TRAN(&Medicine_dosing);
+            status_ = Q_HANDLED();
             break;
         }
         //${AOs::Medicine::SM::operational::dosing::STOP_MED}
@@ -116,7 +123,7 @@ QState Medicine_off(Medicine * const me, QEvt const * const e) {
     switch (e->sig) {
         //${AOs::Medicine::SM::operational::off}
         case Q_ENTRY_SIG: {
-            //BSP_ledOff(me->id);
+            BSP_ledOff(me->id);
             status_ = Q_HANDLED();
             break;
         }
@@ -139,26 +146,25 @@ QState Medicine_alarm(Medicine * const me, QEvt const * const e) {
     switch (e->sig) {
         //${AOs::Medicine::SM::alarm}
         case Q_ENTRY_SIG: {
-            QTimeEvt_armX(&me->timeEvt, BSP_TICKS_PER_SEC/10, BSP_TICKS_PER_SEC/10);
+            QTimeEvt_armX(&me->timeEvt, 10U, 10U);
             status_ = Q_HANDLED();
             break;
         }
         //${AOs::Medicine::SM::alarm}
         case Q_EXIT_SIG: {
             QTimeEvt_disarm(&me->timeEvt);
-            BSP_ledOff(me->id);
             status_ = Q_HANDLED();
             break;
         }
         //${AOs::Medicine::SM::alarm::RESUME}
         case RESUME_SIG: {
-            status_ = Q_TRAN(&Medicine_operational);
+            status_ = Q_TRAN(&Medicine_off);
             break;
         }
         //${AOs::Medicine::SM::alarm::TIMEOUT}
         case TIMEOUT_SIG: {
             BSP_ledToggle(me->id);
-            status_ = Q_TRAN(&Medicine_alarm);
+            status_ = Q_HANDLED();
             break;
         }
         default: {

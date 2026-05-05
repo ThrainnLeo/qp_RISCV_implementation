@@ -13,7 +13,7 @@
 QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
 QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
      <initial_glyph conn="83,2,5,1,-36,15,-5">
-      <action box="-13,0,34,13"/>
+      <action box="-13,0,32,12"/>
      </initial_glyph>
     </initial>
     <state name="operational">
@@ -23,12 +23,14 @@ QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
       </tran_glyph>
      </tran>
      <state name="dosing">
-      <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, me-&gt;interval, me-&gt;interval);
+      <entry>BSP_ledOn(me-&gt;id);
+QTimeEvt_armX(&amp;me-&gt;timeEvt, me-&gt;interval, me-&gt;interval);
 </entry>
-      <tran trig="TIMEOUT" target="..">
+      <exit>QTimeEvt_disarm(&amp;me-&gt;timeEvt);</exit>
+      <tran trig="TIMEOUT">
        <action>BSP_ledToggle(me-&gt;id);</action>
-       <tran_glyph conn="16,56,2,2,4,22,-4">
-        <action box="0,5,22,4"/>
+       <tran_glyph conn="12,52,3,-1,26">
+        <action box="1,1,22,4"/>
        </tran_glyph>
       </tran>
       <tran trig="STOP_MED" target="../../2">
@@ -38,10 +40,11 @@ QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
       </tran>
       <state_glyph node="12,36,30,20">
        <entry box="0,3,30,7"/>
+       <exit box="0,10,6,2"/>
       </state_glyph>
      </state>
      <state name="off">
-      <entry>//BSP_ledOff(me-&gt;id);</entry>
+      <entry>BSP_ledOff(me-&gt;id);</entry>
       <tran trig="START_MED" target="../../1">
        <tran_glyph conn="42,24,1,1,2,14,-2">
         <action box="-11,5,13,2"/>
@@ -54,21 +57,20 @@ QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);</action>
      <state_glyph color="1" node="2,0,62,66"/>
     </state>
     <state name="alarm">
-     <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, BSP_TICKS_PER_SEC/10, BSP_TICKS_PER_SEC/10);</entry>
-     <exit>QTimeEvt_disarm(&amp;me-&gt;timeEvt);
-BSP_ledOff(me-&gt;id);</exit>
-     <tran trig="RESUME" target="../../1">
-      <tran_glyph conn="81,34,3,1,-17">
+     <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, 10U, 10U);</entry>
+     <exit>QTimeEvt_disarm(&amp;me-&gt;timeEvt);</exit>
+     <tran trig="RESUME" target="../../1/2">
+      <tran_glyph conn="81,34,3,1,-34,-15,-5">
        <action box="-11,-2,10,2"/>
       </tran_glyph>
      </tran>
-     <tran trig="TIMEOUT" target="..">
+     <tran trig="TIMEOUT">
       <action>BSP_ledToggle(me-&gt;id);</action>
-      <tran_glyph conn="83,36,2,2,4,22,-4">
-       <action box="2,5,18,5"/>
+      <tran_glyph conn="81,38,3,-1,24">
+       <action box="2,0,18,5"/>
       </tran_glyph>
      </tran>
-     <state_glyph color="1" node="81,20,26,16">
+     <state_glyph color="1" node="81,17,34,25">
       <entry box="0,3,26,7"/>
       <exit box="0,10,26,6"/>
      </state_glyph>
@@ -147,11 +149,12 @@ QACTIVE_POST(AO_Medicine[pe-&gt;medId], (QEvt *)newEvt, me);</action>
     /*Interna signaler för Active Objects*/
     TIMEOUT_SIG,               //Används av timers för att blinka LED
     TICK_SIG,                  //För användning av systemklocka
+
     MAX_SIG                    //Sista signalen
 };</code>
   </attribute>
   <attribute name="N_MEDS" type="uint8_t" visibility="0x03" properties="0x00">
-   <code>((uint8_t)3U)</code>
+   <code>((uint8_t)3U)     // 3 stycken AO (mediciner)</code>
   </attribute>
   <class name="MedEvt" superclass="qpc::QEvt">
    <attribute name="medId" type="uint8_t" visibility="0x00" properties="0x00"/>

@@ -58,11 +58,12 @@ enum AppSignals {
     /*Interna signaler för Active Objects*/
     TIMEOUT_SIG,               //Används av timers för att blinka LED
     TICK_SIG,                  //För användning av systemklocka
+
     MAX_SIG                    //Sista signalen
 };
 
 //${App::N_MEDS} .............................................................
-#define N_MEDS ((uint8_t)3U)
+#define N_MEDS ((uint8_t)3U)     // 3 stycken AO (mediciner)
 
 //${App::MedEvt} .............................................................
 typedef struct {
