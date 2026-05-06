@@ -57,30 +57,17 @@ Q_DEFINE_THIS_FILE
 QState PumpMgr_initial(PumpMgr * const me, void const * const par) {
     //${AOs::PumpMgr::SM::initial}
     (void)par;
-    QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
-    QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);
     return Q_TRAN(&PumpMgr_operational);
 }
 
-//${AOs::PumpMgr::SM::operational} ...........................................
-QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e) {
+//${AOs::PumpMgr::SM::active} ................................................
+QState PumpMgr_active(PumpMgr * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
-        //${AOs::PumpMgr::SM::operational::START_MED}
-        case START_MED_SIG: {
-            MedEvt const *pe = (MedEvt const *)e;
-            /* Skapa en NY händelse för att undvika minneskorruption */
-            MedEvt *newEvt = Q_NEW(MedEvt, START_MED_SIG);
-            newEvt->medId = pe->medId;
-
-            /* Skicka kopian till det specifika medicin-objektet */
-            QACTIVE_POST(AO_Medicine[pe->medId], (QEvt *)newEvt, me);
-            status_ = Q_HANDLED();
-            break;
-        }
-        //${AOs::PumpMgr::SM::operational::STOP_MED}
+        //${AOs::PumpMgr::SM::active::STOP_MED}
         case STOP_MED_SIG: {
             MedEvt const *pe = (MedEvt const *)e;
+            me->medWasRunning[pe->medId] = false;
             /* Skapa en NY händelse att skicka vidare */
             MedEvt *newEvt = Q_NEW(MedEvt, STOP_MED_SIG);
             newEvt->medId = pe->medId;
@@ -88,10 +75,11 @@ QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e) {
             status_ = Q_HANDLED();
             break;
         }
-        //${AOs::PumpMgr::SM::operational::ALARM}
-        case ALARM_SIG: {
-            QF_PUBLISH(Q_NEW(QEvt, ALARM_SIG), me);
-            status_ = Q_TRAN(&PumpMgr_alarm_state);
+        //${AOs::PumpMgr::SM::active::DOSE_FINISHED}
+        case DOSE_FINISHED_SIG: {
+            MedEvt const *pe = (MedEvt const *)e;
+            me->medWasRunning[pe->medId] = false;
+            status_ = Q_HANDLED();
             break;
         }
         default: {
@@ -102,18 +90,96 @@ QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e) {
     return status_;
 }
 
-//${AOs::PumpMgr::SM::alarm_state} ...........................................
-QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e) {
+//${AOs::PumpMgr::SM::active::operational} ...................................
+QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
-        //${AOs::PumpMgr::SM::alarm_state::RESUME}
-        case RESUME_SIG: {
-            QF_PUBLISH(Q_NEW(QEvt, RESUME_SIG), me);
-            status_ = Q_TRAN(&PumpMgr_operational);
+        //${AOs::PumpMgr::SM::active::operational::START_MED}
+        case START_MED_SIG: {
+            MedEvt const *pe = (MedEvt const *)e;
+            me->medWasRunning[pe->medId] = true;
+            /* Skapa en NY händelse för att undvika minneskorruption */
+            MedEvt *newEvt = Q_NEW(MedEvt, START_MED_SIG);
+            newEvt->medId = pe->medId;
+
+            /* Skicka kopian till det specifika medicin-objektet */
+            QACTIVE_POST(AO_Medicine[pe->medId], (QEvt *)newEvt, me);
+            status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::PumpMgr::SM::active::operational::ALARM}
+        case ALARM_SIG: {
+            QF_PUBLISH(Q_NEW(QEvt, ALARM_SIG), me);
+            status_ = Q_TRAN(&PumpMgr_alarm_state);
             break;
         }
         default: {
-            status_ = Q_SUPER(&QHsm_top);
+            status_ = Q_SUPER(&PumpMgr_active);
+            break;
+        }
+    }
+    return status_;
+}
+
+//${AOs::PumpMgr::SM::active::alarm_state} ...................................
+QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        //${AOs::PumpMgr::SM::active::alarm_state}
+        case Q_ENTRY_SIG: {
+            QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
+
+            /*För att alarmet ska starta direkt och inte vänta i 0.1 sekunder*/
+            QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
+            uint8_t i;
+            for (i = 0U; i < N_MEDS; ++i) {
+                if (me->medWasRunning[i]) { // Bara de som kördes innan larmet!
+                    MedEvt *tickEvt = Q_NEW(MedEvt, ALARM_TICK_SIG);
+                    tickEvt->medId = i;
+                    QACTIVE_POST(AO_Medicine[i], (QEvt *)tickEvt, me);
+                }
+            }
+
+            QTimeEvt_armX(&me->timeEvt, BSP_TICKS_PER_SEC/15, BSP_TICKS_PER_SEC/15);
+            status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::PumpMgr::SM::active::alarm_state}
+        case Q_EXIT_SIG: {
+            QTimeEvt_disarm(&me->timeEvt);
+            status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::PumpMgr::SM::active::alarm_state::RESUME}
+        case RESUME_SIG: {
+            QF_PUBLISH(Q_NEW(QEvt, RESUME_SIG), me);
+            uint8_t i;
+            for (i = 0U; i < N_MEDS; ++i) {
+                if (me->medWasRunning[i]) {
+                    MedEvt *newEvt = Q_NEW(MedEvt, START_MED_SIG);
+                    newEvt->medId = i;
+                    QACTIVE_POST(AO_Medicine[i], (QEvt *)newEvt, me);
+                }
+            }
+            status_ = Q_TRAN(&PumpMgr_operational);
+            break;
+        }
+        //${AOs::PumpMgr::SM::active::alarm_state::TIMEOUT}
+        case TIMEOUT_SIG: {
+            //QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
+            uint8_t i;
+            for (i = 0U; i < N_MEDS; ++i) {
+                if (me->medWasRunning[i]) { // Bara de som kördes innan larmet!
+                    MedEvt *tickEvt = Q_NEW(MedEvt, ALARM_TICK_SIG);
+                    tickEvt->medId = i;
+                    QACTIVE_POST(AO_Medicine[i], (QEvt *)tickEvt, me);
+                }
+            }
+            status_ = Q_HANDLED();
+            break;
+        }
+        default: {
+            status_ = Q_SUPER(&PumpMgr_active);
             break;
         }
     }
@@ -126,6 +192,7 @@ QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e) {
 void PumpMgr_ctor(void) {
     PumpMgr * const me = &PumpMgr_inst;
     QActive_ctor(&me->super, Q_STATE_CAST(&PumpMgr_initial));
+    QTimeEvt_ctorX(&me->timeEvt, (QActive *)me, TIMEOUT_SIG, 0U);
     me->isAlarmed = false;
 }
 //$enddef${App::PumpMgr_ctor} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -48,6 +48,7 @@ enum AppSignals {
     /*Signaler som publiceras (alla kan lyssna)*/
     ALARM_SIG = Q_USER_SIG,    //Ersätter PAUSE: Pausar ALLA mediciner
     RESUME_SIG,                //Ersätter SERVE: Startar om fllödet efter larm
+    ALARM_TICK_SIG,
 
     MAX_PUB_SIG,               //Gräns för publicerade signaler
 
@@ -57,6 +58,7 @@ enum AppSignals {
 
     /*Interna signaler för Active Objects*/
     TIMEOUT_SIG,               //Används av timers för att blinka LED
+    DOSE_FINISHED_SIG,
     TICK_SIG,                  //För användning av systemklocka
 
     MAX_SIG                    //Sista signalen
@@ -107,6 +109,8 @@ typedef struct {
     QTimeEvt timeEvt;
     uint8_t id;
     uint32_t interval;
+    QTimeEvt doseTimer;
+    uint32_t ticksLeft;
 } Medicine;
 
 // protected:
@@ -123,10 +127,17 @@ typedef struct {
 
 // public:
     bool isAlarmed;
+
+// private:
+    QTimeEvt timeEvt;
+
+// public:
+    bool medWasRunning[N_MEDS];
 } PumpMgr;
 
 // protected:
 QState PumpMgr_initial(PumpMgr * const me, void const * const par);
+QState PumpMgr_active(PumpMgr * const me, QEvt const * const e);
 QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e);
 QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e);
 //$enddecl${AOs} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

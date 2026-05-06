@@ -58,6 +58,7 @@ QState Medicine_initial(Medicine * const me, void const * const par) {
     //${AOs::Medicine::SM::initial}
     (void)par;
 
+    QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_TICK_SIG);
     QActive_subscribe(Q_ACTIVE_UPCAST(me), ALARM_SIG);
     QActive_subscribe(Q_ACTIVE_UPCAST(me), RESUME_SIG);
     return Q_TRAN(&Medicine_off);
@@ -86,15 +87,33 @@ QState Medicine_dosing(Medicine * const me, QEvt const * const e) {
     switch (e->sig) {
         //${AOs::Medicine::SM::operational::dosing}
         case Q_ENTRY_SIG: {
-            BSP_ledOn(me->id);
+            uint32_t dTime;
+            if (me->ticksLeft > 0U) {
+                /* Fortsätt på den sparade tiden */
+                dTime = me->ticksLeft;
+            } else {
+                /* Starta en helt ny 10-sekundersdos */
+                dTime = (BSP_TICKS_PER_SEC * 10U);
+            }
+
+            QTimeEvt_armX(&me->doseTimer, dTime, 0U);
             QTimeEvt_armX(&me->timeEvt, me->interval, me->interval);
+
+            me->ticksLeft = 0U;
+
 
             status_ = Q_HANDLED();
             break;
         }
         //${AOs::Medicine::SM::operational::dosing}
         case Q_EXIT_SIG: {
+            /* Fånga återstående tid */
+            me->ticksLeft = me->doseTimer.ctr;
+
+            /* Stäng av timers */
             QTimeEvt_disarm(&me->timeEvt);
+            QTimeEvt_disarm(&me->doseTimer);
+
             status_ = Q_HANDLED();
             break;
         }
@@ -106,6 +125,14 @@ QState Medicine_dosing(Medicine * const me, QEvt const * const e) {
         }
         //${AOs::Medicine::SM::operational::dosing::STOP_MED}
         case STOP_MED_SIG: {
+            status_ = Q_TRAN(&Medicine_off);
+            break;
+        }
+        //${AOs::Medicine::SM::operational::dosing::DOSE_FINISHED}
+        case DOSE_FINISHED_SIG: {
+            MedEvt *doneEvt = Q_NEW(MedEvt, DOSE_FINISHED_SIG);
+            doneEvt->medId = me->id;
+            QACTIVE_POST(AO_PumpMgr, (QEvt *)doneEvt, me);
             status_ = Q_TRAN(&Medicine_off);
             break;
         }
@@ -146,13 +173,7 @@ QState Medicine_alarm(Medicine * const me, QEvt const * const e) {
     switch (e->sig) {
         //${AOs::Medicine::SM::alarm}
         case Q_ENTRY_SIG: {
-            QTimeEvt_armX(&me->timeEvt, 10U, 10U);
-            status_ = Q_HANDLED();
-            break;
-        }
-        //${AOs::Medicine::SM::alarm}
-        case Q_EXIT_SIG: {
-            QTimeEvt_disarm(&me->timeEvt);
+            BSP_ledOff(me->id);
             status_ = Q_HANDLED();
             break;
         }
@@ -161,10 +182,15 @@ QState Medicine_alarm(Medicine * const me, QEvt const * const e) {
             status_ = Q_TRAN(&Medicine_off);
             break;
         }
-        //${AOs::Medicine::SM::alarm::TIMEOUT}
-        case TIMEOUT_SIG: {
+        //${AOs::Medicine::SM::alarm::ALARM_TICK}
+        case ALARM_TICK_SIG: {
             BSP_ledToggle(me->id);
             status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::Medicine::SM::alarm::STOP_MED}
+        case STOP_MED_SIG: {
+            status_ = Q_TRAN(&Medicine_off);
             break;
         }
         default: {
@@ -191,10 +217,12 @@ QActive * const AO_Medicine[N_MEDS] ={
 
 //${App::Medicine_ctor} ......................................................
 void Medicine_ctor(uint_fast8_t const id) {
-    Medicine * const me = &Medicine_inst[id];                                //Medicine * const me: Hämtar en specifik medicin-instats ur den array vi skapat.
-    QActive_ctor(&me->super, Q_STATE_CAST(&Medicine_initial));               //QActive_ctor: Berättar för QP att det är ett Active Object och pekar ut vilket tillstånd den ska börja i (initial)
-    QTimeEvt_ctorX(&me->timeEvt, Q_ACTIVE_UPCAST(me), TIMEOUT_SIG, 0U);      //QTimeEvt_ctorX: Kopplar ihop medicinens timer (timeEvt) med signalen TIMEOUT_SIG. Det är denna timer som kommer styra hur snabbt LED-lampan blinkar.
-    me->id = (uint8_t)id;                                                    //me->id = id: Sparar ID:t (0, 1 eller 2). Detta används för att veta om LED B0, B1 eller B2 ska tändas.
+    Medicine * const me = &Medicine_inst[id];                                    //Medicine * const me: Hämtar en specifik medicin-instats ur den array vi skapat.
+    QActive_ctor(&me->super, Q_STATE_CAST(&Medicine_initial));                   //QActive_ctor: Berättar för QP att det är ett Active Object och pekar ut vilket tillstånd den ska börja i (initial)
+    QTimeEvt_ctorX(&me->timeEvt, Q_ACTIVE_UPCAST(me), TIMEOUT_SIG, 0U);          //QTimeEvt_ctorX: Kopplar ihop medicinens timer (timeEvt) med signalen TIMEOUT_SIG. Det är denna timer som kommer styra hur snabbt LED-lampan blinkar.
+    QTimeEvt_ctorX(&me->doseTimer, Q_ACTIVE_UPCAST(me), DOSE_FINISHED_SIG, 0U);  //För att stänga av mediciner efter en viss passerad tid (om inte manuellt avstängd).
+    me->ticksLeft = 0U;
+    me->id = (uint8_t)id;                                                        //me->id = id: Sparar ID:t (0, 1 eller 2). Detta används för att veta om LED B0, B1 eller B2 ska tändas.
 
     if (id == 0) {
         me->interval = BSP_TICKS_PER_SEC/4;

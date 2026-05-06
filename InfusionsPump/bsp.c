@@ -32,7 +32,7 @@ Q_NORETURN Q_onError(char const * const module, int_t const id) {
 
 // eclic_mtip_handler...
 void eclic_mtip_handler(void) {
-    // Timer-hantering (behåll denna exakt som den är)
+
     uint32_t tick_step = TIMER_FREQ / BSP_TICKS_PER_SEC;
     uint64_t next_tick = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME);
     *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = next_tick + tick_step;
@@ -55,7 +55,7 @@ void eclic_mtip_handler(void) {
 
     // Logik som gäller alla switchar (A8 - A5):
     // Kantdetektering: Kontrollera om switchen har ändrat läge sedan förra kollen (10 ms sedan).
-    // Detta förhindrar att vi skickar tusentals identiska händelser när switchen hålls stilla.
+    // Detta förhindrar att vi skickar tusentals identiska händelser när switchen inte ändrar läge stilla.
     if (nowA8 != lastA8) {
         lastA8 = nowA8;
         // Skapa en ny händelse (Event). Om pinnen är hög (1U) skickas START, annars STOP.
