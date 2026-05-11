@@ -38,7 +38,7 @@ Each event is processed fully before the next one starts.
 
 1. **Compiler:** `riscv-none-embed-gcc`
 2. **Build:** Run `make` to compile the local `qpc/` framework and application files.
-3. **Trace:** Use **QSPY** to monitor the event-flow and state transitions in real-time.
+3. **Trace:** Use **QSPY** to monitor the event-flow and state transitions in real-time. (Our testing does not implement **QSPY**)
 
 ---
 *By utilizing Active Objects, this experiment demonstrates a platform where safety is not an added feature, but a fundamental property of the software architecture.*
