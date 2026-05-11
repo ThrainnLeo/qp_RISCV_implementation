@@ -10,6 +10,21 @@
 ## 📌 Overview
 This project demonstrates a modern, safety-critical software platform designed for medical devices. By combining a model-based design workflow with an open-source hardware foundation, the platform lowers the threshold for regulatory compliance while ensuring high software quality and patient safety.
 
+## 📂 Repository Structure
+The project is divided into two main stages to ensure a verified and stable implementation:
+
+### 1. [QProjects/](./QProjects) (Porting & Validation)
+This directory contains the initial phase of the experiment.
+- **Objective:** To port the QP/C Real-Time Embedded Framework (RTEF) to the RISC-V architecture.
+- **Content:** Basic implementations and "Blinky" tests used to verify that the Board Support Package (BSP), machine timer interrupts, and the event-driven engine are working correctly on the target hardware.
+- **Outcome:** A confirmed and stable porting of QP/C to RISC-V, serving as the foundation for the final experiment.
+
+### 2. [InfusionPump/](./InfusionPump) (Final Experiment)
+This is the core of the project and represents the final medical device platform.
+- **Objective:** To implement a fully functional, safety-critical medical infusion pump logic.
+- **Content:** Advanced Active Objects (e.g., `PumpMgr` and `Medicine`) designed as Hierarchical State Machines. It features asynchronous alarm handling, deterministic dosage control, and software partitioning.
+- **Outcome:** A robust demonstration of how international standards like **IEC 62304** and **IEC 61508** can be addressed through modern software architecture.
+
 ## 🚀 Key Features
 - **Model-Based Development:** Visual state machine design using the QM™ modeling tool.
 - **Automatic Code Generation:** MISRA-C compliant code generation to minimize human implementation errors.
