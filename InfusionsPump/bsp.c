@@ -33,8 +33,17 @@ Q_NORETURN Q_onError(char const * const module, int_t const id) {
 // eclic_mtip_handler...
 void eclic_mtip_handler(void) {
 
+/*  Beräkna hur många hårdvaruticks det går på ett system-tick (10 ms).
+    TIMER_FREQ är klockans hastighet (27.000.000 Hz).
+    BSP_TICKS_PER_SEC är vår önskade upplösning (100 Hz).
+    Resultatet blir det antal steg timern ska räkna mellan varje avbrott. */
     uint32_t tick_step = TIMER_FREQ / BSP_TICKS_PER_SEC;
+/*  Läs av den nuvarande absoluta tiden från processorns interna 64-bitars klocka.
+    MTIME ökar oavbrutet så länge strömmen är på och fungerar som systemets 'väggklocka'. */
     uint64_t next_tick = *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIME);
+/*  Programmera nästa avbrott (larmet) genom att skriva till jämförelseregistret MTIMECMP.
+    Vi tar nuvarande tid och lägger till vårt beräknade steg (tick_step).
+    När MTIME når detta värde kommer hårdvaran automatiskt trigga mtip_handler igen. */
     *(uint64_t volatile *)(TIMER_CTRL_ADDR + TIMER_MTIMECMP) = next_tick + tick_step;
 
     QTIMEEVT_TICK_X(0U, (void *)0);
