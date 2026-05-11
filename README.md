@@ -1,11 +1,11 @@
 # Medical Device Software Platform (RISC-V + QP/C + QM)
 
-![Platform: RISC-V](https://img.shields.io/badge/Platform-RISC--V-orange)
-![Framework: QP/C](https://img.shields.io/badge/Framework-QP%2FC-blue)
-![Standard: IEC 62304](https://img.shields.io/badge/Standard-IEC%2062304-green)
-![Standard: ISO 13485](https://img.shields.io/badge/Standard-ISO%2013485-blue)
-![Standard: ISO 14971](https://img.shields.io/badge/Standard-ISO%2014971-red)
-![Standard: IEC 61508](https://img.shields.io/badge/Standard-IEC%2061508-lightgrey)
+[![Platform: RISC-V](https://img.shields.io/badge/Platform-RISC--V-orange)](https://riscv.org/)
+[![Framework: QP/C](https://img.shields.io/badge/Framework-QP%2FC-blue)](https://www.state-machine.com/qpc)
+[![Standard: IEC 62304](https://img.shields.io/badge/Standard-IEC%2062304-green)](https://www.iso.org/standard/38421.html)
+[![Standard: ISO 13485](https://img.shields.io/badge/Standard-ISO%2013485-blue)](https://www.iso.org/iso-13485-medical-devices.html)
+[![Standard: ISO 14971](https://img.shields.io/badge/Standard-ISO%2014971-red)](https://www.iso.org/standard/72704.html)
+[![Standard: IEC 61508](https://img.shields.io/badge/Standard-IEC%2061508-lightgrey)](https://www.iec.ch/functional-safety)
 
 ## 📌 Overview
 This project demonstrates a modern, safety-critical software platform designed for medical devices. By combining a model-based design workflow with an open-source hardware foundation, the platform lowers the threshold for regulatory compliance while ensuring high software quality and patient safety.
