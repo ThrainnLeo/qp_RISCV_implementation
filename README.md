@@ -24,7 +24,7 @@ This project demonstrates a modern, safety-critical software platform designed f
 
 ## 📂 Architecture
 The platform is organized into a layered architecture to support modularity and easier certification:
-1. **Application Layer:** Encapsulated Active Objects (e.g., Pump Manager, Alarm System).
+1. **Application Layer:** Encapsulated Active Objects (e.g., Pump Manager, Medicines).
 2. **Framework Layer:** QP/C RTEF handling event delivery and state machine execution.
 3. **BSP Layer:** Deterministic hardware drivers for RISC-V.
 
