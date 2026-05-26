@@ -45,27 +45,24 @@
 
 //${App::AppSignals} .........................................................
 enum AppSignals {
-    /*Signaler som publiceras (alla kan lyssna)*/
-    ALARM_SIG = Q_USER_SIG,    //Ersätter PAUSE: Pausar ALLA mediciner
-    RESUME_SIG,                //Ersätter SERVE: Startar om fllödet efter larm
+    ALARM_SIG = Q_USER_SIG,
+    RESUME_SIG,
     ALARM_TICK_SIG,
 
-    MAX_PUB_SIG,               //Gräns för publicerade signaler
+    MAX_PUB_SIG,
 
-    /*Signaler för att stya specifika mediciner (från switcharna)*/
-    START_MED_SIG,             //Startar dosering för specifik medicin
-    STOP_MED_SIG,              //Stoppar dosering för en specifik medicin
+    START_MED_SIG,
+    STOP_MED_SIG,
 
-    /*Interna signaler för Active Objects*/
-    TIMEOUT_SIG,               //Används av timers för att blinka LED
+    TIMEOUT_SIG,
     DOSE_FINISHED_SIG,
-    TICK_SIG,                  //För användning av systemklocka
+    TICK_SIG,
 
-    MAX_SIG                    //Sista signalen
+    MAX_SIG
 };
 
 //${App::N_MEDS} .............................................................
-#define N_MEDS ((uint8_t)3U)     // 3 stycken AO (mediciner)
+#define N_MEDS ((uint8_t)3U)
 
 //${App::MedEvt} .............................................................
 typedef struct {
