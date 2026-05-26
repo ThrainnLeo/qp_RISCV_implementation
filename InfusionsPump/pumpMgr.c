@@ -68,7 +68,6 @@ QState PumpMgr_active(PumpMgr * const me, QEvt const * const e) {
         case STOP_MED_SIG: {
             MedEvt const *pe = (MedEvt const *)e;
             me->medWasRunning[pe->medId] = false;
-            /* Skapa en NY händelse att skicka vidare */
             MedEvt *newEvt = Q_NEW(MedEvt, STOP_MED_SIG);
             newEvt->medId = pe->medId;
             QACTIVE_POST(AO_Medicine[pe->medId], (QEvt *)newEvt, me);
@@ -98,11 +97,9 @@ QState PumpMgr_operational(PumpMgr * const me, QEvt const * const e) {
         case START_MED_SIG: {
             MedEvt const *pe = (MedEvt const *)e;
             me->medWasRunning[pe->medId] = true;
-            /* Skapa en NY händelse för att undvika minneskorruption */
             MedEvt *newEvt = Q_NEW(MedEvt, START_MED_SIG);
             newEvt->medId = pe->medId;
 
-            /* Skicka kopian till det specifika medicin-objektet */
             QACTIVE_POST(AO_Medicine[pe->medId], (QEvt *)newEvt, me);
             status_ = Q_HANDLED();
             break;
@@ -129,11 +126,10 @@ QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e) {
         case Q_ENTRY_SIG: {
             QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
 
-            /*För att alarmet ska starta direkt och inte vänta i 0.1 sekunder*/
             QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
             uint8_t i;
             for (i = 0U; i < N_MEDS; ++i) {
-                if (me->medWasRunning[i]) { // Bara de som kördes innan larmet!
+                if (me->medWasRunning[i]) {
                     MedEvt *tickEvt = Q_NEW(MedEvt, ALARM_TICK_SIG);
                     tickEvt->medId = i;
                     QACTIVE_POST(AO_Medicine[i], (QEvt *)tickEvt, me);
@@ -166,10 +162,9 @@ QState PumpMgr_alarm_state(PumpMgr * const me, QEvt const * const e) {
         }
         //${AOs::PumpMgr::SM::active::alarm_state::TIMEOUT}
         case TIMEOUT_SIG: {
-            //QF_PUBLISH(Q_NEW(QEvt, ALARM_TICK_SIG), me);
             uint8_t i;
             for (i = 0U; i < N_MEDS; ++i) {
-                if (me->medWasRunning[i]) { // Bara de som kördes innan larmet!
+                if (me->medWasRunning[i]) {
                     MedEvt *tickEvt = Q_NEW(MedEvt, ALARM_TICK_SIG);
                     tickEvt->medId = i;
                     QACTIVE_POST(AO_Medicine[i], (QEvt *)tickEvt, me);
