@@ -4,11 +4,11 @@ This directory contains the source code for a Medical Infusion Pump platform. Th
 
 ## 📁 Project Roadmap
 
-- `app.h` & `main.c` – System entry point and Active Object initialization.
-- `pumpMgr.c` & `medicine.c` – Core application logic generated from QM™ models.
-- `bsp/` – **Board Support Package**. Manages RISC-V hardware timers and ISRs.
-- `qpc/` – **The QP/C Framework**. Localized execution engine for event-driven logic.
-- `Makefile` – Optimized build script for the RISC-V GNU toolchain.
+- `app.h` & `main.c` - System entry point and Active Object initialization.
+- `pumpMgr.c` & `medicine.c` - Core application logic generated from QM™ models.
+- `bsp/` - **Board Support Package**. Manages RISC-V hardware timers and ISRs.
+- `qpc/` - **The QP/C Framework**. Localized execution engine for event-driven logic.
+- `Makefile` - Optimized build script for the RISC-V GNU toolchain.
 
 ## 🔬 Why this Experiment? (The Philosophy)
 
