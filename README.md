@@ -2,7 +2,7 @@
 
 ![QP/C on RISC-V: model it, generate it, run it](docs/images/readme/banner.svg)
 
-**[Read the thesis](Preliminary%20report/Examensarbete.pdf)** &nbsp;·&nbsp; **[See the slides](Preliminary%20report/Presentation.pdf)**
+**[Read the thesis](Preliminary%20report/Examensarbete.pdf)** &nbsp;
 
 ![Platform](https://img.shields.io/badge/platform-RISC--V_GD32VF103-a5670f?style=flat-square)
 ![Framework](https://img.shields.io/badge/framework-QP%2FC_8.x-0b6b65?style=flat-square)
@@ -60,16 +60,9 @@ You design the behavior as state machines in **QM**, and QM generates the C code
 
 ![Kernel benchmark: QV against µC/OS-II](docs/images/readme/kernel-benchmark.svg)
 
-### From model to code
+![From model to code: the pumpMgr.c template and QM's log](docs/images/readme/qm-code-generation.svg)
 
 QM writes the C files for you. Each file starts as a small template, and every `$define` line marks where QM inserts the generated code. Generating the whole infusion pump took **0.006 s**.
-
-<table>
-  <tr>
-    <td width="45%" align="center"><img src="docs/images/thesis/qm-pumpmgr-file.png" alt="QM file template for pumpMgr.c"><br><sub>The template for <code>pumpMgr.c</code></sub></td>
-    <td width="55%" align="center"><img src="docs/images/thesis/qm-code-generation.png" alt="QM code generation output"><br><sub>QM's log after generating the first port, Blinky</sub></td>
-  </tr>
-</table>
 
 </details>
 
@@ -271,7 +264,7 @@ qp_RISCV_implementation/
 │   └── <a href="Preliminary%20report/Presentation.pdf">Presentation.pdf</a>    ← slides from the presentation
 └── <a href="docs/">docs/</a>
     ├── <a href="docs/DESIGN.md">DESIGN.md</a>           ← colors, type and rules for the banners
-    └── <a href="docs/images/">images/</a>             ← banners, diagrams and two small QM screenshots
+    └── <a href="docs/images/">images/</a>             ← banners and diagrams
 </pre>
 
 </details>
