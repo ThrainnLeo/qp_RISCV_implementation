@@ -22,7 +22,7 @@
 
 That's the idea behind this platform. The **QM model is the formal design**, the C code is generated from it, and you always know why the code does what it does.
 
-<sub>Click a section to open it.</sub>
+<sub>⬇️Click a section to open it.⬇️</sub>
 
 ---
 
@@ -38,9 +38,20 @@ The platform combines three tools:
 
 | Tool | What it does | Why we chose it |
 |---|---|---|
-| **QP/C** + **QV** | Event framework built on *active objects*, with a run-to-completion kernel | No shared memory, so no mutexes. QV reacts quickly to interrupts. License-free, unlike SafeQP/C |
+| **QP/C** + **QV** | Event framework built on *active objects*, with a run-to-completion kernel | No shared memory, so no mutexes. QV reacts quickly to interrupts |
 | **QM** | Graphical modeler for hierarchical state machines | Generates MISRA-C code. You change the model, not the code |
-| **RISC-V** (GD32VF103) | Microcontroller running bare-metal, with no OS | Open and license-free, growing in industry, and simple to port to |
+| **RISC-V** (GD32VF103) | Microcontroller running bare-metal, with no OS | Open and license-free, and simple to port to |
+
+<details>
+<summary><b>Why these tools, in more detail</b></summary>
+<br>
+
+- **QP/C over a traditional RTOS.** Each active object owns its data and talks to the others only through events. There's no shared memory, so there's no need for mutexes. We chose the license-free QP/C over the commercial SafeQP/C.
+- **QM.** Nested states remove repeated logic, and the generated code is MISRA-C compliant. To change the behavior you edit the model and regenerate, instead of hand-editing complex code.
+- **QV.** Simple to run without an OS. In Quantum Leaps' benchmarks it had short interrupt latency, response time and recovery time, which a safety-critical system needs to reach a safe state quickly.
+- **RISC-V.** Unlike closed architectures such as ARM Cortex-M, the instruction set is open and license-free. We already knew it, and it's growing in industry. The GD32VF103 was picked for its low complexity, not raw performance.
+
+</details>
 
 </details>
 
