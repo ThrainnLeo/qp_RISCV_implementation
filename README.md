@@ -32,8 +32,7 @@ That's the idea behind this platform. The **QM model is the formal design**, the
 
 Medical devices range from a plaster to a ventilator, and a software fault in one can be life-threatening. So regulations and international standards control how they are built, and every prototype is tested, documented and verified against them. That process is **slow and expensive**, and hand-written concurrent code makes it harder still, because race conditions and deadlocks are easy to write and hard to find.
 
-> [!NOTE]
-> **Research question:** Can a platform make medical device development easier, by automating parts of the process without compromising safety?
+> ℹ️ **Research question:** Can a platform make medical device development easier, by automating parts of the process without compromising safety?
 
 The platform combines three tools:
 
@@ -57,44 +56,20 @@ You design the behavior as state machines in **QM**, and QM generates the C code
 
 ![Shared memory vs. active objects](docs/images/readme/rtos-vs-active-objects.svg)
 
-<table>
-  <tr>
-    <td width="55%" valign="top">
+**Run-to-completion.** QV runs the active objects one at a time, in a single thread. Each event is handled from start to finish before the next one starts, so one event never interrupts another in the same context. That rules out race conditions, nothing ever waits on a lock, and the behavior stays predictable and easy to test.
 
-**Run-to-completion**
-
-QV runs the active objects one at a time, in a single thread. Each event is handled from start to finish before the next one starts, so one event never interrupts another in the same context. That rules out race conditions, nothing ever waits on a lock, and the behavior stays predictable and easy to test.
-
-  </td>
-    <td width="45%" align="center">
-      <img src="docs/images/thesis/qp-kernel-benchmark.png" alt="Benchmark of QP kernels vs µC/OS-II"><br>
-      <sub>QP kernels vs µC/OS-II, lower is better. Data: <a href="https://www.state-machine.com/doc/AN_QP_Performance.pdf">Quantum Leaps</a></sub>
-    </td>
-  </tr>
-</table>
+![Kernel benchmark: QV against µC/OS-II](docs/images/readme/kernel-benchmark.svg)
 
 ### From model to code
 
-![Generating code with QM: from the medicine.c template to the generated state machine code](docs/images/presentation/qm-code-generation-walkthrough.png)
-
-Click **Generate code**, and QM fills in each `$define` in `medicine.c` with real C code. The red box is the whole Medicine active object; the blue box zooms in on its `alarm` state. Generating the whole infusion pump took **0.006 s**.
-
-<details>
-<summary><b>More from QM</b></summary>
-<br>
-
-![The PumpMgr state machine open in QM](docs/images/presentation/qm-editor.png)
-
-<sub>PumpMgr open in QM. The Model Explorer (left) lists the active objects, signals and generated files. The Property Editor (right) shows the action for the selected <code>ALARM</code> transition: <code>QF_PUBLISH(Q_NEW(QEvt, ALARM_SIG), me);</code></sub>
+QM writes the C files for you. Each file starts as a small template, and every `$define` line marks where QM inserts the generated code. Generating the whole infusion pump took **0.006 s**.
 
 <table>
   <tr>
-    <td width="45%" align="center"><img src="docs/images/thesis/qm-pumpmgr-file.png" alt="QM file template for pumpMgr.c"><br><sub>The file template: QM inserts the generated code at each <code>$define</code></sub></td>
-    <td width="55%" align="center"><img src="docs/images/thesis/qm-code-generation.png" alt="QM code generation output"><br><sub>The first port, Blinky, generated in 0.004 s</sub></td>
+    <td width="45%" align="center"><img src="docs/images/thesis/qm-pumpmgr-file.png" alt="QM file template for pumpMgr.c"><br><sub>The template for <code>pumpMgr.c</code></sub></td>
+    <td width="55%" align="center"><img src="docs/images/thesis/qm-code-generation.png" alt="QM code generation output"><br><sub>QM's log after generating the first port, Blinky</sub></td>
   </tr>
 </table>
-
-</details>
 
 </details>
 
@@ -115,7 +90,6 @@ To show the whole workflow, we built a **simulated infusion pump** with three do
 <table>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/images/thesis/pumpmgr-state-machine.png" alt="PumpMgr state machine in QM">
 
 **PumpMgr**, the control system
 
@@ -125,7 +99,6 @@ To show the whole workflow, we built a **simulated infusion pump** with three do
 
   </td>
     <td width="50%" valign="top">
-      <img src="docs/images/thesis/medicine-state-machine.png" alt="Medicine state machine in QM">
 
 **Medicine[0..2]**, one per channel
 
@@ -213,8 +186,7 @@ We see three main contributions:
 | `Q_onError`: interrupts off, system frozen | **IEC 61508** functional safety |
 | QM-generated MISRA-C code | Less manual coding, fewer systematic errors |
 
-> [!IMPORTANT]
-> QP/C is a *Software Element out of Context* (SEooC). Its documentation helps a product work towards the standards, but the framework alone cannot guarantee that an end product complies. This is an academic proof of concept, **not a certified medical device**.
+> ⚠️ **Note:** QP/C is a *Software Element out of Context* (SEooC). Its documentation helps a product work towards the standards, but the framework alone cannot guarantee that an end product complies. This is an academic proof of concept, **not a certified medical device**.
 
 </details>
 
@@ -238,8 +210,7 @@ make
 
 To change the behavior, open `InfusionsPump/qm/InfusionPump.qm` in QM, edit the state machines, and click **Generate Code**. Then build and flash again.
 
-> [!WARNING]
-> Don't edit `pumpMgr.c` or `medicine.c` by hand. QM overwrites them the next time it generates code.
+> ⚠️ **Warning:** Don't edit `pumpMgr.c` or `medicine.c` by hand. QM overwrites them the next time it generates code.
 
 </details>
 
@@ -300,7 +271,7 @@ qp_RISCV_implementation/
 │   └── <a href="Preliminary%20report/Presentation.pdf">Presentation.pdf</a>    ← slides from the presentation
 └── <a href="docs/">docs/</a>
     ├── <a href="docs/DESIGN.md">DESIGN.md</a>           ← colors, type and rules for the banners
-    └── <a href="docs/images/">images/</a>             ← banners, thesis figures and slide screenshots
+    └── <a href="docs/images/">images/</a>             ← banners, diagrams and two small QM screenshots
 </pre>
 
 </details>
