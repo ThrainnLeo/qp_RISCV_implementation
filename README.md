@@ -4,7 +4,7 @@
 
 **A platform for medical device software: an event-driven framework, model-based code generation and an open RISC-V microcontroller.**
 
-# [▶ Read the thesis (PDF)](Preliminary%20report/Examensarbete.pdf)
+## [Read the thesis (PDF)](Preliminary%20report/Examensarbete.pdf)
 
 📽️ [Slides from the presentation, 4 June 2026](Preliminary%20report/Presentation.pdf)
 
