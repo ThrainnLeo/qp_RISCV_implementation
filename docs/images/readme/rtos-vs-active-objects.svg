@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="452" viewBox="0 0 1200 452">
+<style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
+<rect x="0.5" y="0.5" width="1199" height="451" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
+<text x="56.0" y="66.0" class="Display" font-size="31" fill="#11302b">Shared memory vs. active objects</text>
+<text x="56.0" y="96.0" class="Lead" font-size="17" fill="#4a5f5a">Why QP/C removes race conditions and deadlocks by design.</text>
+<line x1="600" y1="140" x2="600" y2="404" stroke="#d3dcd9" stroke-width="1"/>
+<text x="56.0" y="150.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#bf3329">TRADITIONAL RTOS</text>
+<rect x="80" y="172" width="120" height="40" rx="6" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="140.0" y="197.0" class="Sans" font-size="15" text-anchor="middle" fill="#11302b">Thread A</text>
+<path d="M140,212 L308,252" fill="none" stroke="#6c7d78" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="248" y="172" width="120" height="40" rx="6" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="308.0" y="197.0" class="Sans" font-size="15" text-anchor="middle" fill="#11302b">Thread B</text>
+<path d="M308,212 L308,252" fill="none" stroke="#6c7d78" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="416" y="172" width="120" height="40" rx="6" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="476.0" y="197.0" class="Sans" font-size="15" text-anchor="middle" fill="#11302b">Thread C</text>
+<path d="M476,212 L308,252" fill="none" stroke="#6c7d78" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M264,252 v40 a44,11 0 0 0 88,0 v-40" fill="#f6e2df" stroke="#bf3329" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="308" cy="252" rx="44" ry="11" fill="#f6e2df" stroke="#bf3329" stroke-width="1.5"/>
+<text x="308.0" y="282.0" class="Mono" font-size="12" text-anchor="middle" fill="#4a5f5a">shared</text>
+<text x="308.0" y="297.0" class="Mono" font-size="12" text-anchor="middle" fill="#4a5f5a">memory</text>
+<rect x="386" y="270" width="20" height="16" rx="3" fill="#bf3329"/>
+<path d="M390,270 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="#bf3329" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="416.0" y="283.0" class="Mono" font-size="13" fill="#4a5f5a">mutex</text>
+<path d="M56,363.0 L64.0,371.0 M64.0,363.0 L56,371.0" fill="none" stroke="#bf3329" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="72.0" y="372.0" class="Sans" font-size="16" fill="#bf3329">race conditions</text>
+<path d="M214.4375,363.0 L222.4375,371.0 M222.4375,363.0 L214.4375,371.0" fill="none" stroke="#bf3329" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="230.4" y="372.0" class="Sans" font-size="16" fill="#bf3329">deadlocks</text>
+<path d="M334.1796875,363.0 L342.1796875,371.0 M342.1796875,363.0 L334.1796875,371.0" fill="none" stroke="#bf3329" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="350.2" y="372.0" class="Sans" font-size="16" fill="#bf3329">blocking</text>
+<text x="640.0" y="150.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#0b6b65">QP/C ACTIVE OBJECTS</text>
+<rect x="640" y="176" width="144" height="104" rx="8" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="656.0" y="202.0" class="SansB" font-size="14" fill="#11302b">Active object A</text>
+<rect x="656" y="214" width="112" height="24" rx="4" fill="#d9eae7"/>
+<text x="712.0" y="231.0" class="Mono" font-size="12" text-anchor="middle" fill="#0b6b65">private data</text>
+<rect x="656" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="674" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="692" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<rect x="710" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<text x="732.0" y="264.0" class="Sans" font-size="13" fill="#6c7d78">queue</text>
+<line x1="788" y1="228" x2="810.5" y2="228" stroke="#0b6b65" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M805,223.8 L812,228 L805,232.2" fill="none" stroke="#0b6b65" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="816" y="176" width="144" height="104" rx="8" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="832.0" y="202.0" class="SansB" font-size="14" fill="#11302b">Active object B</text>
+<rect x="832" y="214" width="112" height="24" rx="4" fill="#d9eae7"/>
+<text x="888.0" y="231.0" class="Mono" font-size="12" text-anchor="middle" fill="#0b6b65">private data</text>
+<rect x="832" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="850" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="868" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<rect x="886" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<text x="908.0" y="264.0" class="Sans" font-size="13" fill="#6c7d78">queue</text>
+<line x1="964" y1="228" x2="986.5" y2="228" stroke="#0b6b65" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M981,223.8 L988,228 L981,232.2" fill="none" stroke="#0b6b65" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="992" y="176" width="144" height="104" rx="8" fill="#f3f5f3" stroke="#b3c1bd" stroke-width="1"/>
+<text x="1008.0" y="202.0" class="SansB" font-size="14" fill="#11302b">Active object C</text>
+<rect x="1008" y="214" width="112" height="24" rx="4" fill="#d9eae7"/>
+<text x="1064.0" y="231.0" class="Mono" font-size="12" text-anchor="middle" fill="#0b6b65">private data</text>
+<rect x="1008" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="1026" y="252" width="14" height="14" rx="2" fill="none" stroke="#0b6b65" stroke-width="1"/>
+<rect x="1044" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<rect x="1062" y="252" width="14" height="14" rx="2" fill="#0b6b65" stroke="#0b6b65" stroke-width="1"/>
+<text x="1084.0" y="264.0" class="Sans" font-size="13" fill="#6c7d78">queue</text>
+<text x="640.0" y="306.0" class="Sans" font-size="15" fill="#4a5f5a">Objects only talk through events, posted to each other's queues.</text>
+<path d="M640,368.0 L643.5,372 L650.0,363.0" fill="none" stroke="#2c8743" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="656.0" y="372.0" class="Sans" font-size="16" fill="#2c8743">no shared data</text>
+<path d="M795.0859375,368.0 L798.5859375,372 L805.0859375,363.0" fill="none" stroke="#2c8743" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="811.1" y="372.0" class="Sans" font-size="16" fill="#2c8743">no mutexes</text>
+<path d="M925.1796875,368.0 L928.6796875,372 L935.1796875,363.0" fill="none" stroke="#2c8743" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="941.2" y="372.0" class="Sans" font-size="16" fill="#2c8743">run-to-completion</text>
+</svg>

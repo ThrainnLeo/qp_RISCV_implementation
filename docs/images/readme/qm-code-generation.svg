@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="512" viewBox="0 0 1200 512">
+<style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
+<rect x="0.5" y="0.5" width="1199" height="511" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
+<text x="56.0" y="66.0" class="Display" font-size="31" fill="#11302b">From model to code</text>
+<text x="56.0" y="96.0" class="Lead" font-size="17" fill="#4a5f5a">QM fills in every $define with generated code, in a fraction of a second.</text>
+<clipPath id="w56"><rect x="56" y="132" width="404" height="322" rx="10"/></clipPath>
+<g clip-path="url(#w56)">
+<rect x="56" y="132" width="404" height="322" rx="0" fill="#1a1e24"/>
+<rect x="56" y="132" width="404" height="34" rx="0" fill="#323232"/>
+</g>
+<circle cx="76" cy="149.0" r="6" fill="#ff5f57"/>
+<circle cx="96" cy="149.0" r="6" fill="#febc2e"/>
+<circle cx="116" cy="149.0" r="6" fill="#28c840"/>
+<circle cx="216.8896484375" cy="149.0" r="8" fill="#3b7dd8"/>
+<text x="216.9" y="153.0" class="SansB" font-size="11" text-anchor="middle" fill="#ffffff">C</text>
+<text x="230.9" y="154.0" class="Sans" font-size="14" fill="#e6e6e6">pumpMgr.c</text>
+<rect x="68" y="362.25" width="380" height="66" rx="4" fill="#3b4453"/>
+<text x="80" y="202.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"qpc.h"</tspan></text>
+<text x="80" y="224.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"bsp.h"</tspan></text>
+<text x="80" y="246.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"app.h"</tspan></text>
+<text x="80" y="290.75" class="Mono" font-size="13.5"><tspan fill="#d75e62" font-weight="700">static</tspan><tspan fill="#e8eeea"> PumpMgr PumpMgr_inst;</tspan></text>
+<text x="80" y="334.75" class="Mono" font-size="13.5"><tspan fill="#d75e62" text-decoration="underline">Q_DEFINE_THIS_FILE</tspan></text>
+<text x="80" y="378.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${AOs::PumpMgr}</tspan></text>
+<text x="80" y="400.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${App::PumpMgr_ctor}</tspan></text>
+<text x="80" y="422.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${App::AO_PumpMgr}</tspan></text>
+<clipPath id="w484"><rect x="484" y="132" width="660" height="322" rx="10"/></clipPath>
+<g clip-path="url(#w484)">
+<rect x="484" y="132" width="660" height="322" rx="0" fill="#252a34"/>
+<rect x="484" y="132" width="660" height="34" rx="0" fill="#323232"/>
+</g>
+<text x="772.5" y="154.0" class="Sans" font-size="14" fill="#e6e6e6">Log Console</text>
+<text x="508" y="257.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Model saved: /Users/hugopersson/qm/model.qm</tspan></text>
+<text x="508" y="279.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Code generation started (12:21:10 pm)</tspan></text>
+<text x="508" y="301.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Entire model: /Users/hugopersson/qm/model.qm</tspan></text>
+<text x="508" y="323.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; ${.::blinky.c} (re)generated file: /Users/hugopersson/qm/blinky.c</tspan></text>
+<text x="508" y="345.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Code generation ended (time elapsed 0.004s)</tspan></text>
+<text x="508" y="367.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; 1 file(s) generated, 1 file(s) processed, 0 error(s) and 0 warning(s)</tspan></text>
+<text x="258.0" y="484.0" class="Sans" font-size="14" text-anchor="middle" fill="#4a5f5a">The template: QM inserts the generated code at each $define</text>
+<text x="814.0" y="484.0" class="Sans" font-size="14" text-anchor="middle" fill="#4a5f5a">QM's log after generating the first port, Blinky, in 0.004 s</text>
+</svg>

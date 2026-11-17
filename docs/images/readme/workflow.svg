@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="372" viewBox="0 0 1200 372">
+<style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
+<rect x="0.5" y="0.5" width="1199" height="371" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
+<text x="56.0" y="66.0" class="Display" font-size="31" fill="#11302b">Development loop</text>
+<text x="56.0" y="96.0" class="Lead" font-size="17" fill="#4a5f5a">Change the model, not the code. QM regenerates the C files.</text>
+<text x="56.0" y="200.0" class="Display" font-size="46" opacity="0.9" fill="#0b6b65">1</text>
+<text x="96.0" y="178.0" class="Display" font-size="20" fill="#11302b">Model</text>
+<text x="96.0" y="202.0" class="Mono" font-size="14" fill="#0b6b65">QM</text>
+<text x="96.0" y="224.0" class="Sans" font-size="15" fill="#4a5f5a">edit the state machines</text>
+<line x1="248" y1="172" x2="270.5" y2="172" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M266,168.4 L272,172 L266,175.6" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="282.0" y="200.0" class="Display" font-size="46" opacity="0.9" fill="#0b6b65">2</text>
+<text x="322.0" y="178.0" class="Display" font-size="20" fill="#11302b">Generate</text>
+<text x="322.0" y="202.0" class="Mono" font-size="14" fill="#0b6b65">0.006 s</text>
+<text x="322.0" y="224.0" class="Sans" font-size="15" fill="#4a5f5a">MISRA-C output</text>
+<line x1="474" y1="172" x2="496.5" y2="172" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M492,168.4 L498,172 L492,175.6" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="508.0" y="200.0" class="Display" font-size="46" opacity="0.9" fill="#0b6b65">3</text>
+<text x="548.0" y="178.0" class="Display" font-size="20" fill="#11302b">Build</text>
+<text x="548.0" y="202.0" class="Mono" font-size="14" fill="#0b6b65">make</text>
+<text x="548.0" y="224.0" class="Sans" font-size="15" fill="#4a5f5a">RISC-V GCC</text>
+<line x1="700" y1="172" x2="722.5" y2="172" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M718,168.4 L724,172 L718,175.6" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="734.0" y="200.0" class="Display" font-size="46" opacity="0.9" fill="#0b6b65">4</text>
+<text x="774.0" y="178.0" class="Display" font-size="20" fill="#11302b">Flash</text>
+<text x="774.0" y="202.0" class="Mono" font-size="14" fill="#0b6b65">GD32VF103</text>
+<text x="774.0" y="224.0" class="Sans" font-size="15" fill="#4a5f5a">onto the board</text>
+<line x1="926" y1="172" x2="948.5" y2="172" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M944,168.4 L950,172 L944,175.6" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="960.0" y="200.0" class="Display" font-size="46" opacity="0.9" fill="#0b6b65">5</text>
+<text x="1000.0" y="178.0" class="Display" font-size="20" fill="#11302b">Test</text>
+<text x="1000.0" y="202.0" class="Mono" font-size="14" fill="#0b6b65">switches + LEDs</text>
+<text x="1000.0" y="224.0" class="Sans" font-size="15" fill="#4a5f5a">check the behavior</text>
+<path d="M1012,242 V282 H70 V248" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+<path d="M65,256 L70,248 L75,256" fill="none" stroke="#6c7d78" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="86.0" y="310.0" class="Lead" font-size="16" fill="#4a5f5a">Need a change? Go back to the model.</text>
+</svg>

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1280" height="440" viewBox="0 0 1280 440">
+<style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
+<rect x="0.5" y="0.5" width="1279" height="439" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
+<text x="72.0" y="92.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#0b6b65">MEDICAL DEVICE SOFTWARE PLATFORM</text>
+<text x="69.0" y="168.0" class="Display" font-size="64" fill="#11302b">QP/C on RISC-V</text>
+<text x="72.0" y="214.0" class="Lead" font-size="26" fill="#4a5f5a">Model it. Generate it. Run it.</text>
+<text x="72.0" y="270.0" class="Sans" font-size="18" fill="#4a5f5a">Event-driven firmware for medical devices,</text>
+<text x="72.0" y="294.0" class="Sans" font-size="18" fill="#4a5f5a">modeled in QM and running bare-metal on a GD32VF103.</text>
+<text x="72.0" y="392.0" class="Sans" font-size="14" fill="#6c7d78">Bachelor's thesis · KTH Royal Institute of Technology · 2026</text>
+<line x1="664" y1="56" x2="664" y2="392" stroke="#d3dcd9" stroke-width="1"/>
+<text x="704.0" y="92.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#6c7d78">EVENT TRACE · INFUSION PUMP</text>
+<text x="1208.0" y="92.0" class="Mono" font-size="13" text-anchor="end" fill="#6c7d78">QV · 100 Hz</text>
+<rect x="978" y="118" width="116" height="166" rx="0" fill="#f6e2df"/>
+<line x1="978" y1="112" x2="978" y2="290" stroke="#bf3329" stroke-width="1.25"/>
+<line x1="1094" y1="112" x2="1094" y2="290" stroke="#0b6b65" stroke-width="1.25"/>
+<text x="986.0" y="132.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#bf3329">ALARM</text>
+<text x="1102.0" y="132.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#0b6b65">RESUME</text>
+<text x="704.0" y="155.0" class="Mono" font-size="13" fill="#4a5f5a">MED 0</text>
+<line x1="764" y1="150" x2="1208" y2="150" stroke="#d3dcd9" stroke-width="1"/>
+<text x="790.0" y="138.0" class="Mono" font-size="11" fill="#6c7d78">START_MED</text>
+<rect x="790" y="145" width="188" height="10" rx="2" fill="#0b6b65"/>
+<rect x="984" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1000" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1016" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1032" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1048" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1064" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1080" y="145" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1094" y="145" width="114" height="10" rx="2" fill="#0b6b65"/>
+<text x="704.0" y="207.0" class="Mono" font-size="13" fill="#6c7d78">MED 1</text>
+<line x1="764" y1="202" x2="1208" y2="202" stroke="#d3dcd9" stroke-width="1"/>
+<text x="772.0" y="194.0" class="Sans" font-size="13" fill="#6c7d78">off</text>
+<text x="704.0" y="259.0" class="Mono" font-size="13" fill="#4a5f5a">MED 2</text>
+<line x1="764" y1="254" x2="1208" y2="254" stroke="#d3dcd9" stroke-width="1"/>
+<text x="872.0" y="242.0" class="Mono" font-size="11" fill="#6c7d78">START_MED</text>
+<rect x="872" y="249" width="106" height="10" rx="2" fill="#0b6b65"/>
+<rect x="984" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1000" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1016" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1032" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1048" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1064" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1080" y="249" width="8" height="10" rx="1.5" fill="#bf3329"/>
+<rect x="1094" y="249" width="114" height="10" rx="2" fill="#0b6b65"/>
+<line x1="764" y1="300" x2="1208" y2="300" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="764" y1="300" x2="764" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="775" y1="300" x2="775" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="786" y1="300" x2="786" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="797" y1="300" x2="797" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="808" y1="300" x2="808" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="819" y1="300" x2="819" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="830" y1="300" x2="830" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="841" y1="300" x2="841" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="852" y1="300" x2="852" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="863" y1="300" x2="863" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="874" y1="300" x2="874" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="885" y1="300" x2="885" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="896" y1="300" x2="896" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="907" y1="300" x2="907" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="918" y1="300" x2="918" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="929" y1="300" x2="929" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="940" y1="300" x2="940" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="951" y1="300" x2="951" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="962" y1="300" x2="962" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="973" y1="300" x2="973" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="984" y1="300" x2="984" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="995" y1="300" x2="995" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1006" y1="300" x2="1006" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1017" y1="300" x2="1017" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1028" y1="300" x2="1028" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1039" y1="300" x2="1039" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1050" y1="300" x2="1050" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1061" y1="300" x2="1061" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1072" y1="300" x2="1072" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1083" y1="300" x2="1083" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1094" y1="300" x2="1094" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1105" y1="300" x2="1105" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1116" y1="300" x2="1116" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1127" y1="300" x2="1127" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1138" y1="300" x2="1138" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1149" y1="300" x2="1149" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1160" y1="300" x2="1160" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1171" y1="300" x2="1171" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1182" y1="300" x2="1182" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1193" y1="300" x2="1193" y2="303" stroke="#b3c1bd" stroke-width="1"/>
+<line x1="1204" y1="300" x2="1204" y2="306" stroke="#b3c1bd" stroke-width="1"/>
+<text x="1208.0" y="322.0" class="Sans" font-size="13" text-anchor="end" fill="#6c7d78">time →</text>
+<text x="704.0" y="352.0" class="Sans" font-size="15" fill="#4a5f5a">Switches start doses. The alarm stops every channel at once,</text>
+<text x="704.0" y="374.0" class="Sans" font-size="15" fill="#4a5f5a">and the doses that were running blink until RESUME.</text>
+</svg>
