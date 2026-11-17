@@ -32,7 +32,7 @@
 
 <br>
 
-![No vibe code: model it, generate it](docs/images/readme/anti-vibe-code (1).svg)
+![No vibe code: model it, generate it](docs/images/readme/anti-vibe-code-banner.svg)
 
 > ### 💬 *"Don't let AI write code you don't understand. Instead, describe the design in a formal language and generate the code from it, so the code can be formally approved."*
 
