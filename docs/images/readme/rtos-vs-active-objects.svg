@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="400" viewBox="0 0 1200 400">
+<rect width="1200" height="400" rx="12" fill="#16171b"/>
+<text x="60" y="62" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="0.5" fill="#ece7df">Shared memory vs. active objects</text>
+<text x="60" y="94" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#9a9aa4">Why QP/C removes race conditions and deadlocks by design.</text>
+<rect x="60" y="124" width="520" height="250" rx="8" fill="#e5484d0d" stroke="#e5484d55" stroke-width="1"/>
+<text x="84" y="156" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700" fill="#ece7df">Traditional RTOS</text>
+<text x="556" y="156" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" letter-spacing="2" fill="#e5484d">SHARED</text>
+<rect x="110" y="176" width="100" height="40" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="160" y="201" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#ece7df">Thread A</text>
+<line x1="160" y1="216" x2="320" y2="262" stroke="#9a9aa4" stroke-width="1.5"/>
+<rect x="250" y="176" width="100" height="40" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="300" y="201" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#ece7df">Thread B</text>
+<line x1="300" y1="216" x2="320" y2="262" stroke="#9a9aa4" stroke-width="1.5"/>
+<rect x="390" y="176" width="100" height="40" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="440" y="201" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#ece7df">Thread C</text>
+<line x1="440" y1="216" x2="320" y2="262" stroke="#9a9aa4" stroke-width="1.5"/>
+<path d="M280,262 v48 a40,10 0 0 0 80,0 v-48" fill="#1e1f24" stroke="#e5484d" stroke-width="2"/><ellipse cx="320" cy="262" rx="40" ry="10" fill="#1e1f24" stroke="#e5484d" stroke-width="2"/>
+<text x="320" y="290" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9aa4">global</text>
+<text x="320" y="304" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" fill="#9a9aa4">memory</text>
+<rect x="388" y="276" width="22" height="18" rx="3" fill="#e5484d"/><path d="M392,276 v-5 a7,7 0 0 1 14,0 v5" fill="none" stroke="#e5484d" stroke-width="2.5"/>
+<text x="420" y="290" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" fill="#9a9aa4">mutex</text>
+<text x="84" y="352" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#e5484d">⚠ race conditions  ·  ⚠ deadlocks  ·  ⚠ blocking</text>
+<rect x="620" y="124" width="520" height="250" rx="8" fill="#8cc56a0d" stroke="#8cc56a55" stroke-width="1"/>
+<text x="644" y="156" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700" fill="#ece7df">QP/C active objects</text>
+<text x="1116" y="156" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" letter-spacing="2" fill="#8cc56a">ISOLATED</text>
+<rect x="660" y="190" width="130" height="92" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="725" y="214" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ece7df">Active object A</text>
+<rect x="676" y="228" width="98" height="22" rx="4" fill="#8cc56a1f" stroke="#8cc56a77" stroke-width="1"/>
+<text x="725" y="244" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" fill="#8cc56a">private data</text>
+<rect x="693" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.35"/>
+<rect x="709" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.55"/>
+<rect x="725" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.75"/>
+<rect x="741" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.9500000000000001"/>
+<rect x="810" y="190" width="130" height="92" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="875" y="214" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ece7df">Active object B</text>
+<rect x="826" y="228" width="98" height="22" rx="4" fill="#8cc56a1f" stroke="#8cc56a77" stroke-width="1"/>
+<text x="875" y="244" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" fill="#8cc56a">private data</text>
+<rect x="843" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.35"/>
+<rect x="859" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.55"/>
+<rect x="875" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.75"/>
+<rect x="891" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.9500000000000001"/>
+<rect x="960" y="190" width="130" height="92" rx="6" fill="#1e1f24" stroke="#2d2e35" stroke-width="1"/>
+<text x="1025" y="214" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ece7df">Active object C</text>
+<rect x="976" y="228" width="98" height="22" rx="4" fill="#8cc56a1f" stroke="#8cc56a77" stroke-width="1"/>
+<text x="1025" y="244" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" fill="#8cc56a">private data</text>
+<rect x="993" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.35"/>
+<rect x="1009" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.55"/>
+<rect x="1025" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.75"/>
+<rect x="1041" y="260" width="12" height="12" rx="2" fill="#7086f5" opacity="0.9500000000000001"/>
+<line x1="790" y1="236" x2="800" y2="236" stroke="#7086f5" stroke-width="2"/><path d="M800,231 L808,236 L800,241 Z" fill="#7086f5"/>
+<line x1="940" y1="236" x2="950" y2="236" stroke="#7086f5" stroke-width="2"/><path d="M950,231 L958,236 L950,241 Z" fill="#7086f5"/>
+<text x="880" y="306" text-anchor="middle" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#9a9aa4">events go into each object's queue</text>
+<text x="644" y="352" font-family="-apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#8cc56a">✓ no shared data  ·  ✓ no mutexes  ·  ✓ run-to-completion</text>
+</svg>
