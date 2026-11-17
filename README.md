@@ -6,6 +6,8 @@
 
 # [▶ Read the thesis (PDF)](Preliminary%20report/Examensarbete.pdf)
 
+📽️ [Slides from the presentation, 4 June 2026](Preliminary%20report/Presentation.pdf)
+
 ![Platform](https://img.shields.io/badge/platform-RISC--V_GD32VF103-e8875f?style=flat-square)
 ![Framework](https://img.shields.io/badge/framework-QP%2FC_8.x-7086f5?style=flat-square)
 ![Kernel](https://img.shields.io/badge/kernel-QV-7086f5?style=flat-square)
@@ -37,6 +39,7 @@
 > ### 💬 *"Don't let AI write code you don't understand. Instead, describe the design in a formal language and generate the code from it, so the code can be formally approved."*
 
 That's the idea behind this platform: the **QM model is the formal design**, and the C code is generated from it, so you always know why the code does what it does.
+
 <br>
 
 <p align="center"><sub>⬇️ Click a section below to open it ⬇️</sub></p>
@@ -75,7 +78,7 @@ The platform combines three building blocks:
 - **QP/C over a traditional RTOS.** Each active object owns its data and talks to the others only through events. There's no shared memory and so no need for mutexes. We chose the license-free QP/C over the commercial SafeQP/C.
 - **QM.** Nested states remove repeated logic, and the generated code is MISRA-C compliant. To change the behavior you edit the model and regenerate, instead of hand-editing complex code.
 - **QV.** Simple to run without an OS. In Quantum Leaps' benchmarks it had short interrupt latency, response time and recovery time. A safety-critical system needs those to reach a safe state quickly.
-- **RISC-V.** Unlike closed architectures such as ARM Cortex-M, the ISA is open and license-free. The GD32VF103 was picked for its low complexity, not raw performance.
+- **RISC-V.** Unlike closed architectures such as ARM Cortex-M, the ISA is open and license-free. We already knew it, and it's growing in industry. The GD32VF103 was picked for its low complexity, not raw performance.
 
 </details>
 
@@ -116,14 +119,24 @@ QV runs the active objects one at a time in a single thread. Each event is handl
   </tr>
 </table>
 
+## From model to code
+
+![Generating code with QM: from the medicine.c template to the generated state machine code](docs/images/presentation/qm-code-generation-walkthrough.png)
+
+Click **Generate code**, and QM fills in each `$define` in `medicine.c` with real C code. The red box is the whole Medicine active object; the blue box zooms in on its `alarm` state. Generating code for the whole infusion pump took **0.006 s**.
+
 <details>
-<summary><h3>Code generation in QM · click to open</h3></summary>
+<summary><h3>The QM editor · click to open</h3></summary>
 <br>
+
+![The PumpMgr state machine open in QM](docs/images/presentation/qm-editor.png)
+
+<sub>QM with the PumpMgr state machine open. The Model Explorer (left) lists the active objects, signals and generated files. The Property Editor (right) shows the action for the selected <code>ALARM</code> transition: <code>QF_PUBLISH(Q_NEW(QEvt, ALARM_SIG), me);</code></sub>
 
 <table>
   <tr>
     <td width="45%" align="center"><img src="docs/images/thesis/qm-pumpmgr-file.png" alt="QM file template for pumpMgr.c"><br><sub>The file template: QM inserts the generated code at each <code>$define</code></sub></td>
-    <td width="55%" align="center"><img src="docs/images/thesis/qm-code-generation.png" alt="QM code generation output"><br><sub>Generation finished in 0.004 s</sub></td>
+    <td width="55%" align="center"><img src="docs/images/thesis/qm-code-generation.png" alt="QM code generation output"><br><sub>The first port, Blinky, generated in 0.004 s</sub></td>
   </tr>
 </table>
 
@@ -163,7 +176,7 @@ To show the whole workflow, we built a **simulated infusion pump** with three me
 - Superstate `operational` with `off` and `dosing`
 - `START_MED`: off → dosing, LED on
 - `STOP_MED`: dosing → off, LED off
-- Subscribes to `ALARM` and goes to its `alarm` state
+- Subscribes to `ALARM`: goes to its `alarm` state, where the LED blinks on every alarm tick
 
   </td>
   </tr>
@@ -175,7 +188,7 @@ To show the whole workflow, we built a **simulated infusion pump** with three me
 
 1. **Trigger.** Switch 4 (PA5) is flipped. The timer ISR detects the edge and posts `ALARM_SIG` to PumpMgr.
 2. **Publish.** PumpMgr publishes `ALARM_SIG`. Every Medicine subscribes to it, so they all react at once and stop dosing.
-3. **Safe state.** PumpMgr moves to `alarm_state` and sends periodic alarm ticks to the medicines that were running.
+3. **Safe state.** PumpMgr moves to `alarm_state` and sends periodic alarm ticks to the medicines that were running. Their LEDs start blinking, so you can see which doses were interrupted.
 4. **Resume.** Switching the alarm off publishes `RESUME_SIG`, and the medicines that were running go back to dosing.
 
 </details>
@@ -234,10 +247,20 @@ Porting QP/C to RISC-V, combined with QM, gave a **working platform**. The infus
 
 <table>
   <tr>
-    <td align="center" width="25%"><h2>0.004&nbsp;s</h2><sub>to generate the code from the model</sub></td>
+    <td align="center" width="25%"><h2>0.006&nbsp;s</h2><sub>to generate the infusion pump code from the model</sub></td>
     <td align="center" width="25%"><h2>0</h2><sub>mutexes or shared resources in the application</sub></td>
     <td align="center" width="25%"><h2>1</h2><sub>layer to rewrite for new hardware: the BSP</sub></td>
     <td align="center" width="25%"><h2>100&nbsp;Hz</h2><sub>system tick from the RISC-V machine timer</sub></td>
+  </tr>
+</table>
+
+## Three takeaways
+
+<table>
+  <tr>
+    <td align="center" width="33%"><h3>1.</h3><b>Automated code generation</b><br><sub>Design in QM, generate MISRA-C, and change the model instead of the code.</sub></td>
+    <td align="center" width="33%"><h3>2.</h3><b>An event-driven framework instead of an RTOS</b><br><sub>Active objects and run-to-completion remove whole classes of concurrency bugs.</sub></td>
+    <td align="center" width="33%"><h3>3.</h3><b>An easier path to certification</b><br><sub>A documented framework gives the end product a head start on the standards.</sub></td>
   </tr>
 </table>
 
@@ -261,7 +284,7 @@ Porting QP/C to RISC-V, combined with QM, gave a **working platform**. The infus
 <summary><h1>🚀 Get started</h1></summary>
 <br>
 
-**You need:** a GD32VF103 board, 4 switches and 3 LEDs, a RISC-V GCC toolchain with the GD32VF103 / Nuclei SDK libraries, and [QM](https://www.state-machine.com/products/qm) 7.x to edit the models. QP/C 8.x is included in the `qpc/` folders.
+**You need:** a GD32VF103 board, 4 switches and 3 LEDs, a RISC-V GCC toolchain with the GD32VF103 / Nuclei SDK libraries (we used the `toolchain-gd32v` package, v2.0.2), and [QM](https://www.state-machine.com/products/qm) 7.x to edit the models. QP/C 8.x is included in the `qpc/` folders.
 
 ```bash
 git clone https://github.com/HugoPersson01/qp_RISCV_implementation.git
@@ -342,10 +365,12 @@ qp_RISCV_implementation/
 │   ├── <a href="QProjects/Blinky.c">Blinky.c</a>                   ← two states: LED on / LED off
 │   └── <a href="QProjects/Makefile">Makefile</a>
 ├── <a href="Preliminary%20report/">Preliminary report/</a>
-│   └── <a href="Preliminary%20report/Examensarbete.pdf">Examensarbete.pdf</a>          ← the thesis
+│   ├── <a href="Preliminary%20report/Examensarbete.pdf">Examensarbete.pdf</a>          ← the thesis
+│   └── <a href="Preliminary%20report/Presentation.pdf">Presentation.pdf</a>           ← slides from the presentation
 └── <a href="docs/images/">docs/images/</a>
     ├── <a href="docs/images/readme/">readme/</a>                    ← banners and diagrams
-    └── <a href="docs/images/thesis/">thesis/</a>                    ← figures from the thesis
+    ├── <a href="docs/images/thesis/">thesis/</a>                    ← figures from the thesis
+    └── <a href="docs/images/presentation/">presentation/</a>              ← screenshots from the slides
 </pre>
 
 | Path | What's inside |
@@ -354,7 +379,7 @@ qp_RISCV_implementation/
 | [`InfusionsPump/qm/`](InfusionsPump/qm/) | The QM model. Open it in QM to see and edit the state machines. |
 | [`InfusionsPump/bsp.c`](InfusionsPump/bsp.c) | The only hardware-specific code: GPIO, timer, interrupts and the fault handler. |
 | [`QProjects/`](QProjects/) | Quantum Leaps' Blinky example, ported first to bring up the framework, timer and BSP. |
-| [`Preliminary report/`](Preliminary%20report/) | The thesis, in Swedish with an English abstract. |
+| [`Preliminary report/`](Preliminary%20report/) | The thesis (in Swedish, with an English abstract) and the presentation slides. |
 
 </details>
 
@@ -371,8 +396,7 @@ qp_RISCV_implementation/
       <a href="https://github.com/HugoPersson01"><img src="https://github.com/HugoPersson01.png" width="80" alt="Hugo"><br><b>Hugo Persson</b></a>
     </td>
     <td align="center" width="50%">
-      <!-- TODO: swap in Thrainn's GitHub link and avatar (https://github.com/USERNAME.png) -->
-      <img src="docs/images/readme/avatar-thrainn.svg" width="80" alt="Thrainn"><br><b>Thrainn Leo Thorisson</b>
+      <a href="https://github.com/ThrainnLeo"><img src="https://github.com/ThrainnLeo.png" width="80" alt="Thrainn"><br><b>Thrainn Leo Thorisson</b></a>
     </td>
   </tr>
 </table>
