@@ -2,7 +2,7 @@
 
 ![QP/C on RISC-V: model it, generate it, run it](docs/images/readme/banner.svg)
 
-**[Read the thesis](Preliminary%20report/Examensarbete.pdf)** &nbsp;
+[Read the thesis](Preliminary%20report/Examensarbete.pdf)
 
 ![Platform](https://img.shields.io/badge/platform-RISC--V_GD32VF103-a5670f?style=flat-square)
 ![Framework](https://img.shields.io/badge/framework-QP%2FC_8.x-0b6b65?style=flat-square)
@@ -27,7 +27,7 @@ That's the idea behind this platform. The **QM model is the formal design**, the
 ---
 
 <details>
-<summary><h2>Why this platform?</h2></summary>
+<summary><h2>🩺 Why this platform?</h2></summary>
 <br>
 
 Medical devices range from a plaster to a ventilator, and a software fault in one can be life-threatening. So regulations and international standards control how they are built, and every prototype is tested, documented and verified against them. That process is **slow and expensive**, and hand-written concurrent code makes it harder still, because race conditions and deadlocks are easy to write and hard to find.
@@ -52,13 +52,12 @@ The platform combines three tools:
 - **RISC-V.** Unlike closed architectures such as ARM Cortex-M, the instruction set is open and license-free. We already knew it, and it's growing in industry. The GD32VF103 was picked for its low complexity, not raw performance.
 
 </details>
-
 </details>
 
 ---
 
 <details>
-<summary><h2>How it works</h2></summary>
+<summary><h2>⚙️ How it works</h2></summary>
 <br>
 
 ![Platform layers](docs/images/readme/architecture.svg)
@@ -80,7 +79,7 @@ QM writes the C files for you. Each file starts as a small template, and every `
 ---
 
 <details>
-<summary><h2>The demo: an infusion pump</h2></summary>
+<summary><h2>💉 The demo: an infusion pump</h2></summary>
 <br>
 
 To show the whole workflow, we built a **simulated infusion pump** with three dosing channels and a safety alarm. Switches stand in for user input, and LEDs show which medicines are dosing.
@@ -130,7 +129,7 @@ To show the whole workflow, we built a **simulated infusion pump** with three do
 ---
 
 <details>
-<summary><h2>Porting QP/C to RISC-V</h2></summary>
+<summary><h2>🔧 Porting QP/C to RISC-V</h2></summary>
 <br>
 
 The QP/C port file (`qp_port.h`) handles the framework internals. All we had to write was the **BSP**, which gives the framework a heartbeat and connects it to the pins.
@@ -170,12 +169,12 @@ The full BSP is in [`InfusionsPump/bsp.c`](InfusionsPump/bsp.c) and in Appendix 
 ---
 
 <details>
-<summary><h2>Results</h2></summary>
+<summary><h2>📊 Results</h2></summary>
 <br>
 
 Porting QP/C to RISC-V and combining it with QM gave a **working platform**: the infusion pump runs on the GD32VF103 exactly as modeled. QM generated its code in **0.006 s**, the application has **no mutexes or shared resources**, and moving to new hardware means rewriting **one layer**, the BSP.
 
-We see three main contributions:
+### We see three main contributions:
 
 1. **Automated code generation.** You design in QM, generate MISRA-C, and change the model instead of the code.
 2. **An event-driven framework instead of a traditional RTOS.** Active objects and run-to-completion remove whole classes of concurrency bugs.
@@ -185,10 +184,10 @@ We see three main contributions:
 
 | Platform feature | Supports |
 |---|---|
-| Active objects: strict software partitioning | **IEC 62304** modular architecture, **ISO 26262** Freedom From Interference |
-| Publish-subscribe alarm: every unit reacts at once | Predictable, safe-state behavior |
-| `Q_onError`: interrupts off, system frozen | **IEC 61508** functional safety |
-| QM-generated MISRA-C code | Less manual coding, fewer systematic errors |
+| 🧱 Active objects: strict software partitioning | **IEC 62304** modular architecture, **ISO 26262** Freedom From Interference |
+| 📣 Publish-subscribe alarm: every unit reacts at once | Predictable, safe-state behavior |
+| 🛑 `Q_onError`: interrupts off, system frozen | **IEC 61508** functional safety |
+| 🖱️ QM-generated MISRA-C code | Less manual coding, fewer systematic errors (bonus) |
 
 > ⚠️ **Note:** QP/C is a *Software Element out of Context* (SEooC). Its documentation helps a product work towards the standards, but the framework alone cannot guarantee that an end product complies. This is an academic proof of concept, **not a certified medical device**.
 
@@ -197,7 +196,7 @@ We see three main contributions:
 ---
 
 <details>
-<summary><h2>Get started</h2></summary>
+<summary><h2>🚀 Get started</h2></summary>
 <br>
 
 You need a GD32VF103 board, 4 switches and 3 LEDs, a RISC-V GCC toolchain with the GD32VF103 / Nuclei SDK libraries (we used the `toolchain-gd32v` package, v2.0.2), and [QM](https://www.state-machine.com/products/qm) 7.x to edit the models. QP/C 8.x is included in the `qpc/` folders.
@@ -221,7 +220,7 @@ To change the behavior, open `InfusionsPump/qm/InfusionPump.qm` in QM, edit the 
 ---
 
 <details>
-<summary><h2>Limitations and roadmap</h2></summary>
+<summary><h2>🧭 Limitations and roadmap</h2></summary>
 <br>
 
 **Known limitations**
@@ -250,7 +249,7 @@ To change the behavior, open `InfusionsPump/qm/InfusionPump.qm` in QM, edit the 
 ---
 
 <details>
-<summary><h2>Repository</h2></summary>
+<summary><h2>📁 Repository</h2></summary>
 <br>
 
 <pre>
@@ -283,7 +282,7 @@ qp_RISCV_implementation/
 ---
 
 <details>
-<summary><h2>Team</h2></summary>
+<summary><h2>👥 Team</h2></summary>
 <br>
 
 <table>
