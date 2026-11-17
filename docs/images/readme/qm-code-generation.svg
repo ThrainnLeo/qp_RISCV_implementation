@@ -1,34 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="496" viewBox="0 0 1200 496">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="512" viewBox="0 0 1200 512">
 <style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
-<rect x="0.5" y="0.5" width="1199" height="495" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
+<rect x="0.5" y="0.5" width="1199" height="511" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
 <text x="56.0" y="66.0" class="Display" font-size="31" fill="#11302b">From model to code</text>
 <text x="56.0" y="96.0" class="Lead" font-size="17" fill="#4a5f5a">QM fills in every $define with generated code, in a fraction of a second.</text>
-<rect x="56" y="136" width="404" height="300" rx="8" fill="#e9eeec"/>
-<text x="80.0" y="163.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#0b6b65">TEMPLATE · PUMPMGR.C</text>
-<text x="80.0" y="191.0" class="Mono" font-size="14" fill="#11302b">#include "qpc.h"</text>
-<text x="80.0" y="213.0" class="Mono" font-size="14" fill="#11302b">#include "bsp.h"</text>
-<text x="80.0" y="235.0" class="Mono" font-size="14" fill="#11302b">#include "app.h"</text>
-<text x="80.0" y="257.0" class="Mono" font-size="14" fill="#11302b"></text>
-<text x="80.0" y="279.0" class="Mono" font-size="14" fill="#11302b">static PumpMgr PumpMgr_inst;</text>
-<text x="80.0" y="301.0" class="Mono" font-size="14" fill="#11302b"></text>
-<text x="80.0" y="323.0" class="Mono" font-size="14" fill="#4a5f5a">Q_DEFINE_THIS_FILE</text>
-<text x="80.0" y="345.0" class="Mono" font-size="14" fill="#11302b"></text>
-<rect x="68" y="352.0" width="380" height="22" rx="0" fill="#d9eae7"/>
-<text x="80.0" y="367.0" class="Mono" font-size="14" fill="#0b6b65">$define ${AOs::PumpMgr}</text>
-<rect x="68" y="374.0" width="380" height="22" rx="0" fill="#d9eae7"/>
-<text x="80.0" y="389.0" class="Mono" font-size="14" fill="#0b6b65">$define ${App::PumpMgr_ctor}</text>
-<rect x="68" y="396.0" width="380" height="22" rx="0" fill="#d9eae7"/>
-<text x="80.0" y="411.0" class="Mono" font-size="14" fill="#0b6b65">$define ${App::AO_PumpMgr}</text>
-<rect x="484" y="136" width="660" height="300" rx="8" fill="#e9eeec"/>
-<text x="508.0" y="196.0" class="SansB" font-size="12" letter-spacing="1.4" fill="#0b6b65">QM LOG · THE FIRST PORT, BLINKY</text>
-<text x="508.0" y="224.0" class="Mono" font-size="14" fill="#4a5f5a">INFO&gt; Model saved: /Users/hugopersson/qm/model.qm</text>
-<text x="508.0" y="246.0" class="Mono" font-size="14" fill="#4a5f5a">INFO&gt; Code generation started (12:21:10 pm)</text>
-<text x="508.0" y="268.0" class="Mono" font-size="14" fill="#4a5f5a">INFO&gt; Entire model: /Users/hugopersson/qm/model.qm</text>
-<text x="508.0" y="290.0" class="Mono" font-size="14" fill="#4a5f5a">INFO&gt; ${.::blinky.c} (re)generated file:</text>
-<text x="558.4" y="312.0" class="Mono" font-size="14" fill="#4a5f5a">/Users/hugopersson/qm/blinky.c</text>
-<rect x="496" y="319.0" width="636" height="22" rx="4" fill="#d9eae7"/>
-<text x="508.0" y="334.0" class="Mono" font-size="14" fill="#11302b">INFO&gt; Code generation ended (time elapsed 0.004s)</text>
-<text x="508.0" y="356.0" class="Mono" font-size="14" fill="#4a5f5a">INFO&gt; 1 file(s) generated, 1 file(s) processed,</text>
-<text x="558.4" y="378.0" class="Mono" font-size="14" fill="#4a5f5a">0 error(s) and 0 warning(s)</text>
-<text x="56.0" y="470.0" class="Sans" font-size="14" fill="#6c7d78">QM writes these C files; you never edit them by hand.</text>
+<clipPath id="w56"><rect x="56" y="132" width="404" height="322" rx="10"/></clipPath>
+<g clip-path="url(#w56)">
+<rect x="56" y="132" width="404" height="322" rx="0" fill="#1a1e24"/>
+<rect x="56" y="132" width="404" height="34" rx="0" fill="#323232"/>
+</g>
+<circle cx="76" cy="149.0" r="6" fill="#ff5f57"/>
+<circle cx="96" cy="149.0" r="6" fill="#febc2e"/>
+<circle cx="116" cy="149.0" r="6" fill="#28c840"/>
+<circle cx="216.8896484375" cy="149.0" r="8" fill="#3b7dd8"/>
+<text x="216.9" y="153.0" class="SansB" font-size="11" text-anchor="middle" fill="#ffffff">C</text>
+<text x="230.9" y="154.0" class="Sans" font-size="14" fill="#e6e6e6">pumpMgr.c</text>
+<rect x="68" y="362.25" width="380" height="66" rx="4" fill="#3b4453"/>
+<text x="80" y="202.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"qpc.h"</tspan></text>
+<text x="80" y="224.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"bsp.h"</tspan></text>
+<text x="80" y="246.75" class="Mono" font-size="13.5"><tspan fill="#6498c5" font-weight="700">#include </tspan><tspan fill="#98c790" font-style="italic">"app.h"</tspan></text>
+<text x="80" y="290.75" class="Mono" font-size="13.5"><tspan fill="#d75e62" font-weight="700">static</tspan><tspan fill="#e8eeea"> PumpMgr PumpMgr_inst;</tspan></text>
+<text x="80" y="334.75" class="Mono" font-size="13.5"><tspan fill="#d75e62" text-decoration="underline">Q_DEFINE_THIS_FILE</tspan></text>
+<text x="80" y="378.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${AOs::PumpMgr}</tspan></text>
+<text x="80" y="400.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${App::PumpMgr_ctor}</tspan></text>
+<text x="80" y="422.75" class="Mono" font-size="13.5"><tspan fill="#ff7777" font-weight="700" text-decoration="underline">$define ${App::AO_PumpMgr}</tspan></text>
+<clipPath id="w484"><rect x="484" y="132" width="660" height="322" rx="10"/></clipPath>
+<g clip-path="url(#w484)">
+<rect x="484" y="132" width="660" height="322" rx="0" fill="#252a34"/>
+<rect x="484" y="132" width="660" height="34" rx="0" fill="#323232"/>
+</g>
+<text x="772.5" y="154.0" class="Sans" font-size="14" fill="#e6e6e6">Log Console</text>
+<text x="508" y="257.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Model saved: /Users/hugopersson/qm/model.qm</tspan></text>
+<text x="508" y="279.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Code generation started (12:21:10 pm)</tspan></text>
+<text x="508" y="301.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Entire model: /Users/hugopersson/qm/model.qm</tspan></text>
+<text x="508" y="323.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; ${.::blinky.c} (re)generated file: /Users/hugopersson/qm/blinky.c</tspan></text>
+<text x="508" y="345.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; Code generation ended (time elapsed 0.004s)</tspan></text>
+<text x="508" y="367.75" class="Mono" font-size="13.5"><tspan fill="#e1e1e1">INFO&gt; 1 file(s) generated, 1 file(s) processed, 0 error(s) and 0 warning(s)</tspan></text>
+<text x="258.0" y="484.0" class="Sans" font-size="14" text-anchor="middle" fill="#4a5f5a">The template: QM inserts the generated code at each $define</text>
+<text x="814.0" y="484.0" class="Sans" font-size="14" text-anchor="middle" fill="#4a5f5a">QM's log after generating the first port, Blinky, in 0.004 s</text>
 </svg>
