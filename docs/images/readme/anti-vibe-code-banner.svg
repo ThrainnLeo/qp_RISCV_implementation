@@ -3,11 +3,6 @@
 <rect x="0.5" y="0.5" width="1199" height="419" rx="12" fill="#f3f5f3" stroke="#d3dcd9"/>
 <text x="56.0" y="66.0" class="Display" font-size="31" fill="#11302b">No vibes. Only state machines.</text>
 <text x="56.0" y="98.0" class="Lead" font-size="18" fill="#4a5f5a">Would you trust your life to code nobody understands?</text>
-<g transform="rotate(-11 1046 72)">
-<rect x="960" y="44" width="172" height="54" rx="5" fill="none" stroke="#bf3329" stroke-width="2.5" opacity="0.9"/>
-<rect x="966" y="50" width="160" height="42" rx="3" fill="none" stroke="#bf3329" stroke-width="1.2" opacity="0.55"/>
-<text x="1046.0" y="78.0" class="SansB" font-size="18" text-anchor="middle" letter-spacing="2.5" fill="#bf3329">NO VIBE CODE</text>
-</g>
 <rect x="56" y="126" width="500" height="238" rx="10" fill="#fbf1ef" stroke="#e7b8b2" stroke-width="1"/>
 <text x="80.0" y="160.0" class="Display" font-size="19" fill="#11302b">Vibe coding</text>
 <text x="532.0" y="158.0" class="SansB" font-size="12" text-anchor="end" letter-spacing="1.6" fill="#bf3329">PLEASE DON'T</text>
