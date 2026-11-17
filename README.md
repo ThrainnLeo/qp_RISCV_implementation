@@ -30,6 +30,15 @@
   </tr>
 </table>
 
+<br>
+
+![No vibe code: model it, generate it](docs/images/readme/anti-vibe-code.svg)
+
+> ### 💬 *"Don't let AI write code you don't understand. Instead, describe the design in a formal language and generate the code from it, so the code can be formally approved."*
+
+That's the idea behind this platform: the **QM model is the formal design**, and the C code is generated from it, so you always know why the code does what it does.
+<br>
+
 <p align="center"><sub>⬇️ Click a section below to open it ⬇️</sub></p>
 
 ---
@@ -39,7 +48,7 @@
 <summary><h1>🩺 Why this platform?</h1></summary>
 <br>
 
-Medical devices range from a band aid to a ventilator, and software faults in them can be life-threatening. That is why regulatory requirements and international standards control how they are built. Every prototype is tested, documented and verified against those requirements.
+Medical devices range from a plaster to a ventilator, and software faults in them can be life-threatening. That is why regulatory requirements and international standards control how they are built. Every prototype is tested, documented and verified against those requirements.
 
 <table>
   <tr>
