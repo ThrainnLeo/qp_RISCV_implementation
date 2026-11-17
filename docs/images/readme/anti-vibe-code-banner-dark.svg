@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1200" height="420" viewBox="0 0 1200 420">
+<style>.Display{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:800;font-style:normal}.Body{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Lead{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.Sans{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:400;font-style:normal}.SansB{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;font-weight:700;font-style:normal}.Mono{font-family:'SF Mono', ui-monospace, Menlo, Consolas, 'Liberation Mono', monospace;font-weight:400;font-style:normal}</style>
+<rect x="0.5" y="0.5" width="1199" height="419" rx="12" fill="#16171b" stroke="#16171b"/>
+<text x="56.0" y="66.0" class="Display" font-size="31" fill="#ece7df">No vibes. Only state machines.</text>
+<text x="56.0" y="98.0" class="Lead" font-size="18" fill="#9a9aa4">Would you trust your life to code nobody understands?</text>
+<g transform="rotate(-11 1046 72)">
+<rect x="960" y="44" width="172" height="54" rx="5" fill="none" stroke="#e5484d" stroke-width="2.5" opacity="0.9"/>
+<rect x="966" y="50" width="160" height="42" rx="3" fill="none" stroke="#e5484d" stroke-width="1.2" opacity="0.55"/>
+<text x="1046.0" y="78.0" class="SansB" font-size="18" text-anchor="middle" letter-spacing="2.5" fill="#e5484d">NO VIBE CODE</text>
+</g>
+<rect x="56" y="126" width="500" height="238" rx="10" fill="#e5484d0d" stroke="#e5484d55" stroke-width="1"/>
+<text x="80.0" y="160.0" class="Display" font-size="19" fill="#ece7df">Vibe coding</text>
+<text x="532.0" y="158.0" class="SansB" font-size="12" text-anchor="end" letter-spacing="1.6" fill="#e5484d">PLEASE DON'T</text>
+<rect x="80" y="174" width="452" height="108" rx="6" fill="#121317" stroke="#2d2e35" stroke-width="1"/>
+<text x="96.0" y="200.0" class="Mono" font-size="14" fill="#ece7df">&gt; make the pump work, no bugs pls</text>
+<text x="96.0" y="223.0" class="Mono" font-size="14" fill="#9a9aa4">sure! generated pump.c (2 400 lines)</text>
+<text x="96.0" y="246.0" class="Mono" font-size="14" fill="#6c6c76">// TODO: figure out the alarm later</text>
+<text x="96.0" y="269.0" class="Mono" font-size="14" fill="#6c6c76">// should be fine, trust me</text>
+<rect x="80" y="296" width="141.650390625" height="28" rx="14" fill="#e5484d22"/>
+<path d="M92,307.8 L98.4,314.2 M98.4,307.8 L92,314.2" fill="none" stroke="#e5484d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="108.0" y="315.0" class="Sans" font-size="14" fill="#e5484d">race condition?</text>
+<rect x="231.650390625" y="296" width="107.7919921875" height="28" rx="14" fill="#e5484d22"/>
+<path d="M243.650390625,307.8 L250.050390625,314.2 M250.050390625,307.8 L243.650390625,314.2" fill="none" stroke="#e5484d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="259.7" y="315.0" class="Sans" font-size="14" fill="#e5484d">deadlock?</text>
+<rect x="349.4423828125" y="296" width="144.6650390625" height="28" rx="14" fill="#e5484d22"/>
+<path d="M361.4423828125,307.8 L367.8423828125,314.2 M367.8423828125,307.8 L361.4423828125,314.2" fill="none" stroke="#e5484d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="377.4" y="315.0" class="Sans" font-size="14" fill="#e5484d">who wrote this?</text>
+<text x="80.0" y="348.0" class="Mono" font-size="13" fill="#9a9aa4">certification status:</text>
+<text x="251.8" y="348.0" class="Mono" font-size="13" fill="#e5484d">not happening</text>
+<line x1="566" y1="245" x2="632.5" y2="245" stroke="#7086f5" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M625,239.6 L634,245 L625,250.4" fill="none" stroke="#7086f5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="644" y="126" width="500" height="238" rx="10" fill="#8cc56a0d" stroke="#8cc56a55" stroke-width="1"/>
+<text x="668.0" y="160.0" class="Display" font-size="19" fill="#ece7df">Model it. Generate it.</text>
+<text x="1120.0" y="158.0" class="SansB" font-size="12" text-anchor="end" letter-spacing="1.6" fill="#8cc56a">DO IT LIKE THIS</text>
+<rect x="668" y="174" width="452" height="108" rx="6" fill="#121317" stroke="#2d2e35" stroke-width="1"/>
+<rect x="688" y="192" width="136" height="42" rx="6" fill="#7086f526" stroke="#7086f5" stroke-width="1.5"/>
+<text x="756.0" y="218.0" class="Mono" font-size="14" text-anchor="middle" fill="#ece7df">operational</text>
+<rect x="964" y="192" width="136" height="42" rx="6" fill="#e5484d14" stroke="#e5484d" stroke-width="1.5"/>
+<text x="1032.0" y="218.0" class="Mono" font-size="14" text-anchor="middle" fill="#ece7df">alarm_state</text>
+<line x1="830" y1="204" x2="956.5" y2="204" stroke="#e5484d" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M951,199.8 L958,204 L951,208.2" fill="none" stroke="#e5484d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="894.0" y="197.0" class="Mono" font-size="11" text-anchor="middle" fill="#9a9aa4">ALARM</text>
+<line x1="958" y1="222" x2="831.5" y2="222" stroke="#7086f5" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M837,217.8 L830,222 L837,226.2" fill="none" stroke="#7086f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="894.0" y="238.0" class="Mono" font-size="11" text-anchor="middle" fill="#9a9aa4">RESUME</text>
+<text x="894.0" y="266.0" class="Mono" font-size="12" text-anchor="middle" fill="#6c6c76">InfusionPump.qm → generate → pumpMgr.c</text>
+<rect x="668" y="296" width="100.7236328125" height="28" rx="14" fill="#8cc56a22"/>
+<path d="M680,311.8 L682.8,315 L688.0,307.8" fill="none" stroke="#8cc56a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="696.0" y="315.0" class="Sans" font-size="14" fill="#8cc56a">MISRA-C</text>
+<rect x="778.7236328125" y="296" width="109.248046875" height="28" rx="14" fill="#8cc56a22"/>
+<path d="M790.7236328125,311.8 L793.5236328125,315 L798.7236328125,307.8" fill="none" stroke="#8cc56a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="806.7" y="315.0" class="Sans" font-size="14" fill="#8cc56a">0 mutexes</text>
+<rect x="897.9716796875" y="296" width="135.826171875" height="28" rx="14" fill="#8cc56a22"/>
+<path d="M909.9716796875,311.8 L912.7716796875,315 L917.9716796875,307.8" fill="none" stroke="#8cc56a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="926.0" y="315.0" class="Sans" font-size="14" fill="#8cc56a">you know why</text>
+<text x="668.0" y="348.0" class="Mono" font-size="13" fill="#9a9aa4">certification status:</text>
+<text x="839.8" y="348.0" class="Mono" font-size="13" fill="#8cc56a">reviewable</text>
+<text x="56.0" y="396.0" class="Lead" font-size="15" fill="#6c6c76">Works on my machine is not a regulatory strategy.</text>
+</svg>
