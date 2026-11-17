@@ -39,7 +39,7 @@
 <summary><h1>🩺 Why this platform?</h1></summary>
 <br>
 
-Medical devices range from a plaster to a ventilator, and software faults in them can be life-threatening. That is why regulatory requirements and international standards control how they are built. Every prototype is tested, documented and verified against those requirements.
+Medical devices range from a band aid to a ventilator, and software faults in them can be life-threatening. That is why regulatory requirements and international standards control how they are built. Every prototype is tested, documented and verified against those requirements.
 
 <table>
   <tr>
