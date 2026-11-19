@@ -30,7 +30,7 @@ That's the idea behind this platform. The **QM model is the formal design**, the
 <summary><h2>🩺 Why this platform?</h2></summary>
 <br>
 
-Medical devices range from a plaster to a ventilator, and a software fault in one can be life-threatening. So regulations and international standards control how they are built, and every prototype is tested, documented and verified against them. That process is **slow and expensive**, and hand-written concurrent code makes it harder still, because race conditions and deadlocks are easy to write and hard to find.
+Medical devices range from a band aid to a ventilator, and a software fault in one can be life-threatening. So regulations and international standards control how they are built, and every prototype is tested, documented and verified against them. That process is **slow and expensive**, and hand-written concurrent code makes it harder still, because race conditions and deadlocks are easy to write and hard to find.
 
 > ℹ️ **Research question:** Can a platform make medical device development easier, by automating parts of the process without compromising safety?
 
